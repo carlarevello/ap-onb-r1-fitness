@@ -652,7 +652,11 @@ Nos vemos el [día hora] para [lo que priorizaron].</div>
     window.scrollTo(0, 0);
   }
   function showMatriz(anchor) {
-    closeDrawer();
+    overlay.classList.remove('open');
+    drawer.classList.remove('open');
+    overlay.hidden = true;
+    drawer.hidden = true;
+    document.querySelectorAll('.node').forEach(function (n) { n.classList.remove('active'); });
     viewFlujo.classList.add('hidden');
     viewMatriz.classList.add('visible');
     tabFlujo.classList.remove('active');
