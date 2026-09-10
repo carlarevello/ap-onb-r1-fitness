@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>R1 AgendaPro Fitness — Onboarding</title>
+<link rel="preconnect" href="https://api.fontshare.com"/>
+<link href="https://api.fontshare.com/v2/css?f[]=clash-display@300,400,500,600&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --navy: #1D1D3D;
+    --navy-mid: #7A7DA4;
+    --navy-light: #9DA1CA;
+    --morado: #812DF2;
+    --morado-pale: #EEE2FF;
+    --naranja: #FF7A59;
+    --gris: #F5F5F5;
+    --gris-mid: #A8A8A8;
+    --white: #FFFFFF;
+    --line: #E4E4EC;
+    --drawer-w: min(420px, 92vw);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Clash Display', system-ui, sans-serif;
+    background: var(--gris);
+    color: var(--navy);
+    min-height: 100vh;
+    line-height: 1.45;
+  }
+  #gate {
+    position: fixed; inset: 0; z-index: 80;
+    display: flex; align-items: center; justify-content: center;
+    background: linear-gradient(145deg, #1D1D3D, #3a2a6a 55%, #812DF2);
+    padding: 1.5rem;
+  }
+  #gate.hidden { display: none; }
+  .gate-card {
+    background: #fff; border-radius: 12px; padding: 2rem;
+    max-width: 400px; width: 100%;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, .25);
+  }
+  .gate-card h1 { font-size: 1.2rem; font-weight: 600; margin-bottom: .35rem; }
+  .gate-card p { font-size: .9rem; color: var(--navy-mid); font-weight: 300; margin-bottom: 1rem; }
+  .gate-card input {
+    width: 100%; padding: .7rem; border: 1px solid var(--line);
+    border-radius: 8px; font: inherit; margin-bottom: .75rem;
+  }
+  .gate-card button {
+    width: 100%; padding: .75rem; border: 0; border-radius: 8px;
+    background: var(--morado); color: #fff; font: inherit; font-weight: 500; cursor: pointer;
+  }
+  .gate-card .err { color: var(--naranja); font-size: .8rem; min-height: 1.2em; }
+  .page { max-width: 880px; margin: 0 auto; padding: 1.5rem 1.25rem 4rem; }
+  .badge {
+    display: inline-block; font-size: 0.7rem; font-weight: 500;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--naranja); background: #FFF0EB;
+    padding: 0.35rem 0.7rem; border-radius: 4px; margin-bottom: 0.75rem;
+  }
+  h1 { font-size: clamp(1.4rem, 3vw, 1.85rem); font-weight: 600; letter-spacing: -0.02em; margin-bottom: 0.35rem; }
+  .lead { font-weight: 300; font-size: 1.02rem; color: var(--navy-mid); max-width: 42rem; margin-bottom: 1.25rem; }
+  .hint { font-size: 0.88rem; color: var(--gris-mid); margin-bottom: 1.5rem; }
+  .hint strong { color: var(--navy-mid); font-weight: 500; }
+  .phase { margin-bottom: 1.5rem; }
+  .phase-label {
+    font-size: 0.72rem; font-weight: 500; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--navy-light);
+    margin-bottom: 0.65rem;
+  }
+  .row { display: flex; flex-wrap: wrap; align-items: stretch; gap: 0.65rem; }
+  .node {
+    flex: 1 1 220px;
+    background: var(--white); border: 1px solid var(--line);
+    border-left: 3px solid var(--morado); border-radius: 8px;
+    padding: 0.95rem 1rem; cursor: pointer; text-align: left;
+    font: inherit; color: inherit;
+  }
+  .node:hover, .node:focus-visible {
+    border-color: var(--morado);
+    box-shadow: 0 6px 20px rgba(29, 29, 61, 0.08);
+    outline: none;
+  }
+  .node.active { border-color: var(--naranja); border-left-color: var(--naranja); }
+  .node.stop-node { border-left-color: var(--naranja); }
+  .node .num { display: block; font-size: 0.7rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--navy-light); margin-bottom: 0.25rem; }
+  .node .title { display: block; font-size: 1.05rem; font-weight: 500; margin-bottom: 0.35rem; }
+  .node .blurb { display: block; font-size: 0.86rem; font-weight: 300; color: var(--navy-mid); }
+  .overlay { position: fixed; inset: 0; background: rgba(29, 29, 61, 0.35); opacity: 0; pointer-events: none; transition: opacity 0.2s; z-index: 40; }
+  .overlay.open { opacity: 1; pointer-events: auto; }
+  .drawer {
+    position: fixed; top: 0; right: 0; width: var(--drawer-w); height: 100%;
+    background: var(--white); box-shadow: -12px 0 40px rgba(29, 29, 61, 0.12);
+    transform: translateX(105%); transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+    z-index: 50; display: flex; flex-direction: column;
+  }
+  .drawer.open { transform: translateX(0); }
+  .drawer-head { padding: 1.35rem 1.35rem 1rem; border-bottom: 1px solid var(--line); flex-shrink: 0; }
+  .drawer-phase { font-size: 0.68rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--naranja); margin-bottom: 0.35rem; }
+  .drawer-head h2 { font-size: 1.2rem; font-weight: 600; padding-right: 2rem; }
+  .drawer-close {
+    position: absolute; top: 1.1rem; right: 1.1rem; width: 36px; height: 36px;
+    border: none; background: var(--gris); border-radius: 8px; cursor: pointer;
+    font-size: 1.25rem; color: var(--navy);
+  }
+  .drawer-body { padding: 1.25rem 1.35rem; overflow-y: auto; flex: 1; font-weight: 300; font-size: 0.95rem; }
+  .drawer-body ul { margin: 0.75rem 0 1rem; padding-left: 1.1rem; }
+  .drawer-body li { margin-bottom: 0.4rem; }
+  .drawer-body strong { font-weight: 500; }
+  .stop { background: #FFF0EB; border-left: 3px solid var(--naranja); padding: 0.7rem 0.85rem; border-radius: 0 6px 6px 0; font-size: 0.88rem; margin: 1rem 0; }
+  .drawer-actions { padding: 1rem 1.35rem 1.5rem; border-top: 1px solid var(--line); display: flex; flex-direction: column; gap: 0.55rem; }
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    padding: 0.75rem 1rem; border-radius: 8px; font: inherit; font-weight: 500;
+    font-size: 0.92rem; cursor: pointer; text-decoration: none; border: none;
+  }
+  .btn-primary { background: var(--morado); color: var(--white); }
+  .btn-ghost { background: transparent; color: var(--navy-mid); border: 1px solid var(--line); }
+  .view-switch { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+  .view-switch button {
+    font: inherit; font-weight: 500; font-size: 0.9rem; padding: 0.55rem 1rem;
+    border-radius: 8px; border: 1px solid var(--line); background: var(--white);
+    color: var(--navy-mid); cursor: pointer;
+  }
+  .view-switch button.active { background: var(--morado); border-color: var(--morado); color: var(--white); }
+  #view-matriz {
+    display: none; max-width: 880px; margin: 0 auto; padding: 1rem 1.25rem 4rem;
+    background: var(--white);
+    font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+    line-height: 1.55;
+  }
+  #view-matriz.visible { display: block; }
+  #view-flujo.hidden { display: none; }
+  #view-matriz h1, #view-matriz h2, #view-matriz h3 {
+    font-family: 'Clash Display', system-ui, sans-serif; font-weight: 600; color: var(--navy);
+  }
+  #view-matriz h1 { font-size: 1.6rem; margin: 0 0 .4rem; }
+  #view-matriz h2 { font-size: 1.15rem; margin: 1.75rem 0 .5rem; }
+  #view-matriz h3 { font-size: 1rem; margin: 1.1rem 0 .35rem; }
+  #view-matriz p, #view-matriz li { font-size: .95rem; margin: .35rem 0; }
+  #view-matriz ul, #view-matriz ol { padding-left: 1.2rem; }
+  #view-matriz a { color: var(--morado); }
+  #view-matriz table { border-collapse: collapse; width: 100%; margin: 0.7rem 0 1rem; font-size: 0.92rem; }
+  #view-matriz th, #view-matriz td { border: 1px solid var(--line); padding: 0.5rem 0.6rem; text-align: left; vertical-align: top; }
+  #view-matriz th { background: var(--morado-pale); }
+  .topbar-tools { display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center; margin-bottom: 1rem; }
+  .search-wrap { position: relative; flex: 1 1 240px; min-width: 200px; }
+  .search-input {
+    width: 100%; font: inherit; font-size: 0.92rem;
+    padding: 0.6rem 0.8rem; border: 1px solid var(--line);
+    border-radius: 8px; background: var(--white);
+  }
+  .search-results {
+    position: absolute; top: calc(100% + 4px); left: 0; right: 0; margin: 0; padding: 0;
+    background: var(--white); border: 1px solid var(--line); border-radius: 8px;
+    box-shadow: 0 8px 28px rgba(29, 29, 61, 0.14); max-height: 280px; overflow-y: auto;
+    z-index: 60; display: none;
+  }
+  .search-results.open { display: block; }
+  .search-results li { list-style: none; }
+  .search-results button {
+    width: 100%; text-align: left; background: none; border: none;
+    border-bottom: 1px solid var(--line); padding: 0.5rem 0.8rem;
+    font: inherit; font-size: 0.88rem; cursor: pointer;
+  }
+  .search-results button:hover, .search-results button.hl { background: var(--morado-pale); }
+  .search-results .r-empty { padding: 0.7rem 0.8rem; color: var(--gris-mid); font-size: 0.88rem; }
+  #view-matriz h1[id], #view-matriz h2[id], #view-matriz h3[id],
+  #view-matriz .todo[id] { scroll-margin-top: 1rem; }
+  .anchor-flash { animation: flash 2.2s ease-out 1; }
+  @keyframes flash {
+    0% { background: #FFF0EB; }
+    100% { background: transparent; }
+  }
+  .callout {
+    background: #FFF0EB; border-left: 3px solid var(--naranja);
+    padding: .7rem .85rem; border-radius: 0 8px 8px 0; margin: .7rem 0; font-size: .92rem;
+  }
+  .callout.ok { background: var(--morado-pale); border-left-color: var(--morado); }
+  .copybox {
+    background: #f7f5fb; border: 1px dashed var(--morado); border-radius: 8px;
+    padding: .85rem 1rem; font-size: .9rem; margin: .6rem 0; white-space: pre-wrap;
+  }
+  .todo {
+    background: var(--gris); border: 1px solid var(--line); border-radius: 10px;
+    padding: 1rem 1.1rem; margin: .55rem 0;
+  }
+  .todo b { display: block; font-family: 'Clash Display', system-ui, sans-serif; font-size: 1.02rem; margin-bottom: .25rem; }
+  .say { font-size: .9rem; color: var(--navy-mid); margin-top: .4rem; }
+  .say em { color: var(--navy); font-style: italic; }
+  footer { margin-top: 1.75rem; font-size: .78rem; color: var(--gris-mid); }
+  code { font-family: ui-monospace, Menlo, monospace; font-size: .85em; background: #f0f0f5; padding: .05em .3em; border-radius: 4px; }
+</style>
+</head>
+<body>
+<div id="gate">
+  <div class="gate-card">
+    <h1>R1 AgendaPro Fitness</h1>
+    <p>Uso interno AgendaPro · Onboarding</p>
+    <div class="err" id="gate-err"></div>
+    <input id="gate-input" type="password" placeholder="Clave interna" autocomplete="off"/>
+    <button type="button" id="gate-btn">Entrar</button>
+  </div>
+</div>
+
+<div id="app" hidden>
+  <div class="page" id="top-switch" style="padding-bottom:0;margin-bottom:0;">
+    <span class="badge">Interno · Onboarding · R1 Fitness</span>
+    <div class="topbar-tools">
+      <div class="view-switch" role="tablist">
+        <button type="button" class="active" id="tab-flujo">Flujo interactivo</button>
+        <button type="button" id="tab-matriz">Procedimiento completo</button>
+      </div>
+      <div class="search-wrap">
+        <input id="topic-search" class="search-input" type="search" autocomplete="off"
+               placeholder="Buscar: planes, cupos, CO/MX, lista de espera…" aria-label="Buscar"/>
+        <ul class="search-results" id="search-results" role="listbox"></ul>
+      </div>
+    </div>
+  </div>
+
+  <div id="view-flujo">
+    <div class="page">
+      <h1>Asesoría 1 — AgendaPro Fitness</h1>
+      <p class="lead">Misma R1 de Ruta A (45 min, 4 temas, espejo, 2ª). Otro producto: clases con cupo y planes, no el AgendaPro de citas 1:1.</p>
+      <p class="hint">El panel resume. El botón del cajón abre la sección completa. Entrar en <strong>fitness.agendapro.com</strong>, no en app.agendapro.com.</p>
+
+      <section class="phase">
+        <div class="phase-label">Antes de entrar</div>
+        <div class="row">
+          <button type="button" class="node stop-node" data-id="p0">
+            <span class="num">Paso 0</span>
+            <span class="title">País, venta y URL</span>
+            <span class="blurb">CL y AR sí. CO y MX no. Si es POS/FE, no es este playbook.</span>
+          </button>
+        </div>
+      </section>
+
+      <section class="phase">
+        <div class="phase-label">A · Kickoff ~15 min</div>
+        <div class="row">
+          <button type="button" class="node" data-id="p1">
+            <span class="num">Paso 1</span>
+            <span class="title">Encuadre y 4 temas</span>
+            <span class="blurb">Motivo, dolor, antes, quién opera. Sin cuestionario.</span>
+          </button>
+          <button type="button" class="node" data-id="p2">
+            <span class="num">Paso 2</span>
+            <span class="title">Espejo y CM</span>
+            <span class="blurb">Prioridad en sus palabras. Tarea B2B3+ completa.</span>
+          </button>
+        </div>
+      </section>
+
+      <section class="phase">
+        <div class="phase-label">B · Config (el resto)</div>
+        <div class="row">
+          <button type="button" class="node" data-id="p3">
+            <span class="num">Paso 3</span>
+            <span class="title">Cimientos</span>
+            <span class="blurb">Sede → sala → categoría → profesor. En ese orden.</span>
+          </button>
+          <button type="button" class="node" data-id="p4">
+            <span class="num">Paso 4</span>
+            <span class="title">Clases</span>
+            <span class="blurb">Catálogo, recurrencia e instancia. Tres tipos.</span>
+          </button>
+          <button type="button" class="node" data-id="p5">
+            <span class="num">Paso 5</span>
+            <span class="title">Calendario</span>
+            <span class="blurb">Día, profesores, hueco vacío. Cancelar una no borra la serie.</span>
+          </button>
+          <button type="button" class="node" data-id="p6">
+            <span class="num">Paso 6</span>
+            <span class="title">Planes</span>
+            <span class="blurb">Libre o por disciplina. Visible al público. Sin tope semanal.</span>
+          </button>
+          <button type="button" class="node" data-id="p7">
+            <span class="num">Paso 7</span>
+            <span class="title">Vender y app</span>
+            <span class="blurb">Botón Vender. Alumno reserva desde la app. Señal de uso.</span>
+          </button>
+        </div>
+      </section>
+
+      <section class="phase">
+        <div class="phase-label">C · Cierre 3–5 min</div>
+        <div class="row">
+          <button type="button" class="node" data-id="p8">
+            <span class="num">Paso 8</span>
+            <span class="title">Cierre y 2ª</span>
+            <span class="blurb">Acción 48–72 h + fecha de R2. Sin eso, la R1 no cerró.</span>
+          </button>
+          <button type="button" class="node stop-node" data-id="p9">
+            <span class="num">Paso 9</span>
+            <span class="title">No vender / no hay</span>
+            <span class="blurb">Lista de espera, gift card, tope semanal, CO/MX.</span>
+          </button>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <div id="view-matriz">
+    <span class="badge">Procedimiento · R1 Fitness · 10 sep 2026</span>
+    <h1 id="para-que">Manual R1 — AgendaPro Fitness</h1>
+    <p>Para owners que hacen la <strong>Asesoría 1</strong> de un comercio que compró <strong>AgendaPro Fitness</strong> (pilates, yoga, funcional, box, crossfit, estudios con clases grupales y planes).</p>
+    <div class="callout ok">
+      <strong>Esto no reemplaza el Blueprint Ruta A.</strong> Misma anatomía: kickoff ~15 min → config → cierre. Cambia el producto, el orden de clics y lo que no se promete. Si el comercio es Solo SaaS clásico (citas 1:1), usa el Blueprint A. Si trajo POS/FE, Track B.
+    </div>
+
+    <h2 id="fuentes">Fuentes (corte 7–10 sep 2026)</h2>
+    <table>
+      <tr><th>Qué</th><th>Para qué</th></tr>
+      <tr><td><a href="https://carlarevello.github.io/ap-blueprint-onboarding-b2b/">Blueprint Ruta A</a></td><td>Ceremonia de R1: 4 temas, espejo, CM, 2ª</td></tr>
+      <tr><td><a href="https://ayuda.agendapro.com/es/articles/15465873-centro-de-ayuda-agendapro-fitness-faq">Centro de ayuda Fitness</a></td><td>Clics y comportamiento publicado del panel</td></tr>
+      <tr><td>Capacitación interna 7-sep-2026 (Meet, no Diio)</td><td>Lo que Producto pidió enseñar y lo que aún no se promete</td></tr>
+    </table>
+    <p>Si el centro de ayuda y la capacitación se pisan, en R1 gana <strong>no prometer</strong>. Detalle en <a href="#paso-9">Paso 9</a>.</p>
+
+    <h2 id="exito">Éxito de esta R1</h2>
+    <ol>
+      <li>El cliente entiende que compró <strong>Fitness</strong>: clases con cupo + planes, no el menú de citas clásico.</li>
+      <li>Hay espejo con prioridad, en sus palabras, en tarea B2B3+ de Company Management.</li>
+      <li>Quedó el mínimo para operar: 1 sede, 1 sala, 1 categoría, 1 profesor, 1 clase recurrente, 1 plan.</li>
+      <li>Hay <strong>señal de uso</strong> o compromiso 48–72 h: vender un plan, inscribir un alumno, o que el alumno reserve en la app.</li>
+      <li><strong>2ª sesión agendada.</strong></li>
+    </ol>
+    <p>Agenda llena de todas las disciplinas = deseable. No es la única condición de éxito.</p>
+
+    <h2 id="paso-0">Paso 0. País, venta y URL</h2>
+    <div class="todo" id="p0-todo">
+      <b>Stop antes de configurar</b>
+      Confirma en HubSpot / Chatwoot / nota de venta que es Fitness, no SaaS clásico ni POS/FE.
+    </div>
+    <table>
+      <tr><th>Si ves</th><th>Qué haces</th></tr>
+      <tr><td>Chile o Argentina + Fitness</td><td>Sigue este manual</td></tr>
+      <tr><td>Colombia o México</td><td><strong>Stop.</strong> Fitness no está abierto a venta ahí (vigente 7-sep-2026). Escala al TL; no configures como si fuera CL</td></tr>
+      <tr><td>POS, boletas, máquina</td><td>Track B. Este playbook no aplica</td></tr>
+      <tr><td>Cuenta en app.agendapro.com con “servicio tipo clase”</td><td>Eso es el producto clásico. Fitness se opera en <code>fitness.agendapro.com</code></td></tr>
+    </table>
+    <p><strong>Panel:</strong> <code>https://fitness.agendapro.com</code>. Menú: Inicio, Clases, Calendario, Planes, Alumnos, Usuarios, Finanzas, Reportes, Productos, Configuración.</p>
+    <p class="say">Qué le dices: <em>“Esto no es la agenda de una cita a la vez. Acá el alumno compra un plan y reserva cupos de clase. Hoy dejamos lo mínimo para que alguien ya pueda inscribirse.”</em></p>
+
+    <h2 id="paso-1">Paso 1. Encuadre y 4 temas (~15 min)</h2>
+    <p>Igual que Ruta A. <strong>No</strong> anuncies un cuestionario. <strong>No</strong> abras el catálogo en los primeros ~10 min sin espejo.</p>
+    <table>
+      <tr><th>Tema (mapa interno)</th><th>En Fitness suena así</th></tr>
+      <tr><td>Motivo</td><td>Por qué cambiaron de planilla / WhatsApp / otro software</td></tr>
+      <tr><td>Dolor</td><td>Cupos, no-show, profesores, cobro de planes, alumnos que se pasan de clases</td></tr>
+      <tr><td>Antes</td><td>Cómo anotaban la clase y cómo cobraban el plan</td></tr>
+      <tr><td>Quién opera</td><td>Dueño, recepción, profesor en sala</td></tr>
+    </table>
+    <p class="say">Encuadre: <em>“En 45 minutos quiero entender cómo trabaja el centro y dejar una clase y un plan listos. Lo que no alcance queda para la segunda, con fecha.”</em></p>
+    <div class="callout">Rojo: “vamos directo a configurar” · enumerar “cuatro preguntas” · explicar todo el producto antes de oír el local.</div>
+
+    <h2 id="paso-2">Paso 2. Espejo y Company Management</h2>
+    <p>Espejo ~45 s: <em>“Si entendí bien, lo primero es [X]. ¿Priorizamos eso?”</em></p>
+    <p>Registra en <strong>Lista de tareas B2B3+</strong> (Company Management): prioridad, acción, responsable, fecha, señal de uso. Los 5 campos. HubSpot no es la ficha de kickoff.</p>
+    <div class="copybox">Prioridad (palabras del cliente):
+Acción de hoy:
+Responsable:
+Fecha R2:
+Señal de uso (48–72 h): vender plan / 1 alumno reserva en app / horarios cargados</div>
+
+    <h2 id="paso-3">Paso 3. Cimientos (sede → sala → categoría → profesor)</h2>
+    <p>El centro de ayuda pide este orden porque cada paso usa el anterior. Sin sala no hay clase; sin categoría el calendario no pinta disciplina.</p>
+    <ol>
+      <li><strong>Sede.</strong> Configuración → Sedes → Agregar sede (nombre y dirección). Logo en Datos de la empresa. Fotos o banner del local, en la sede.</li>
+      <li><strong>Sala.</strong> Configuración → Salas. Espacio dentro de la sede (sala de yoga, carril, reformer).</li>
+      <li><strong>Categoría.</strong> Clases → Nueva categoría (Yoga, Funcional, Natación…). El color sale en el Calendario.</li>
+      <li><strong>Profesor.</strong> Usuarios / Profesores → Agregar. Nombre, apellido, sede. Si va a usar la app de profesor, marca crear cuenta de acceso; si solo lo asignas a clases, déjalo sin login.</li>
+    </ol>
+    <p>Un profesor puede estar en varias sedes. El selector de sede arriba a la derecha filtra todo el panel. Si al agendar aparece dos veces, elige el de la sede correcta.</p>
+    <p class="say">Qué le dices: <em>“Primero el local y quién enseña. Después las clases. Si saltamos eso, el calendario queda vacío o la clase no tiene dónde dictarse.”</em></p>
+    <div class="callout">En R1 basta <strong>una</strong> sede, <strong>una</strong> sala, <strong>una</strong> categoría, <strong>un</strong> profesor. El resto es tarea de ellos o de la 2ª.</div>
+
+    <h2 id="paso-4">Paso 4. Clases: catálogo, recurrencia, instancia</h2>
+    <p>Tres capas (así lo mostró Producto el 7-sep):</p>
+    <table>
+      <tr><th>Capa</th><th>Qué es</th><th>Dónde</th></tr>
+      <tr><td><strong>Catálogo</strong></td><td>La clase: nombre, categoría, cupo, duración, sedes, sala por defecto</td><td>Clases → Nueva clase</td></tr>
+      <tr><td><strong>Recurrencia</strong></td><td>El patrón semanal (lunes 9:00, etc.)</td><td>Paso Horario del asistente</td></tr>
+      <tr><td><strong>Instancia</strong></td><td>Esa clase de ese día</td><td>Calendario</td></tr>
+    </table>
+    <p>Asistente de 3 pasos: Información → Horario (recurrente o única) → Políticas y cupos. Al publicar, las sesiones quedan en el Calendario. El sistema arma horarios hacia adelante (en la capacitación: hasta 8 semanas, y cada día suma uno nuevo).</p>
+    <h3 id="tres-tipos">Tres tipos</h3>
+    <ul>
+      <li><strong>Grupal:</strong> varios alumnos, con cupo. Sale del catálogo y se repite.</li>
+      <li><strong>Personalizada:</strong> 1:1, equivalente a un servicio. Se agenda desde el Calendario (horario vacío → Reservar cita) o desde Alumnos. Si el plan cubre esa sesión, se descuenta; si no, cobras ahora o dejas pendiente. El panel avisa si el plan del alumno no cubre ese servicio.</li>
+      <li><strong>Extraordinaria:</strong> clase suelta, un día y hora, a partir de una clase ya creada. Si el profesor ya tiene otra a la misma hora, el sistema avisa.</li>
+    </ul>
+    <p><strong>Cupos:</strong> capacidad máxima en el último paso. Se puede editar después.</p>
+    <p><strong>Profesor de una instancia:</strong> se puede cambiar solo esa clase, sin romper la serie. Importa para comisiones.</p>
+    <p><strong>Cancelar una clase:</strong> borra esa instancia, no toda la recurrencia.</p>
+    <p><strong>Profesor de vacaciones:</strong> hoy no hay bloqueo por profesional. Workaround: cancelar las instancias de esos días. No prometas el bloqueo por profesor; Producto lo tiene como pendiente.</p>
+    <p class="say">Qué le dices: <em>“La clase del catálogo es la receta. El calendario es el día. Si el lunes el profesor cambia, movemos solo ese lunes.”</em></p>
+
+    <h2 id="paso-5">Paso 5. Calendario</h2>
+    <p>Inicio resume el día en dos carriles: clases de hoy y citas de hoy. El Calendario filtra por sede, día / semana / profesores, y por categoría.</p>
+    <p>Clic en un horario vacío (fecha, hora y profesional ya vienen):</p>
+    <ul>
+      <li><strong>Reservar cita</strong> — personalizada, con pago o descuento del plan.</li>
+      <li><strong>Nueva clase</strong> — extraordinaria.</li>
+      <li><strong>Bloquear horario</strong> — tramo de ese profesional; el motivo se ve en el calendario.</li>
+    </ul>
+    <p>También hay Bloquear horario y Cancelar día en la barra. Vista diaria: clases a la misma hora quedan lado a lado. Vista profesores: una columna por instructor.</p>
+    <p class="say">Qué le dices: <em>“Si no hay nadie a las 10, el hueco sirve para una cita 1:1, una clase suelta o para bloquear.”</em></p>
+
+    <h2 id="paso-6">Paso 6. Planes</h2>
+    <p>Planes → Crear plan. Plantilla o desde cero. Tres pasos: Básicos → Clases → Acceso (sedes).</p>
+    <table>
+      <tr><th>Campo</th><th>Qué significa para el comercio</th></tr>
+      <tr><td>Vigencia</td><td>Días, semanas, meses o años. Se puede <strong>extender</strong> después; no acortar ni retroceder</td></tr>
+      <tr><td>Plan libre</td><td>N clases del período, en cualquier disciplina</td></tr>
+      <tr><td>Plan por disciplina</td><td>Cupos separados (4 yoga + 4 funcional)</td></tr>
+      <tr><td>Grupos</td><td>Varias clases comparten el mismo cupo</td></tr>
+      <tr><td>Sin tope</td><td>Ilimitadas durante la vigencia (grupales, personalizadas o grupos)</td></tr>
+      <tr><td>Personalizadas en el plan</td><td>Ej. 12 pilates + 1 evaluación nutricional</td></tr>
+      <tr><td>Visible al público</td><td>Sale en la app y en el catálogo / marketplace. Si está apagado, solo se vende en caja o por link</td></tr>
+      <tr><td>Más de una persona</td><td>Plan pareja / familiar</td></tr>
+    </table>
+    <p>Un alumno puede tener varios planes. Cada uno descuenta del que se usó al reservar.</p>
+    <p>Los planes se <strong>editan</strong> (precio, sesiones, disciplinas). No hace falta un plan nuevo por cada promo. Nada se borra: se <strong>desactiva</strong>. Hoy la edición aplica a <strong>suscripciones nuevas</strong>; empujar el cambio a las vigentes es trabajo de Producto, no lo prometas en R1.</p>
+    <p><strong>Pago recurrente con tarjeta:</strong> solo Chile. Otros mercados: pago único.</p>
+    <div class="callout">No hay tope del tipo “12 clases al mes pero máximo 3 por semana”. Si el alumno quiere quemar el plan en cinco días, el sistema se lo permite. Dilo en R1 para no generar un reclamo después.</div>
+    <p class="say">Qué le dices: <em>“El plan es lo que el alumno compró. La clase es el cupo que gasta. Si el plan no es visible, ustedes lo venden en recepción; si es visible, también lo compra solo desde la app.”</em></p>
+
+    <h2 id="paso-7">Paso 7. Vender, alumno y app</h2>
+    <h3 id="vender">Botón Vender (arriba a la derecha)</h3>
+    <ol>
+      <li>Ítems: plan (y productos, si el centro vende retail). “Pagar después” solo si vendes un plan <strong>sin</strong> productos.</li>
+      <li>Alumno existente o registrar uno nuevo (nombre, apellido, email obligatorios).</li>
+      <li>Revisar.</li>
+      <li>Pago: caja, link, pendiente, o pagar después con fecha. El plan queda activo; en ficha aparece “En prueba” si pagará después. Precio tiene que ser mayor a cero: no es un plan gratis.</li>
+    </ol>
+    <p>También se vende desde la ficha del alumno (asociar / vender). Se cobra una personalizada o una reserva pendiente con el mismo asistente.</p>
+    <h3 id="ficha-alumno">Ficha del alumno</h3>
+    <ul>
+      <li>Planes, asistencia, pagos.</li>
+      <li>Sumar o restar créditos (regalo, ajuste de onboarding).</li>
+      <li>Pausar / reanudar (rango de fechas). Extender vigencia en pago único.</li>
+      <li>Venta a plazo: plan activo hasta la fecha; si no paga, pierde acceso. Se puede cobrar antes desde la ficha.</li>
+    </ul>
+    <p>Cancelar una reserva <strong>devuelve el cupo</strong> si está dentro de la política del centro. El alumno cancela o reagenda desde la app AgendaPro. El no-show <strong>sí gasta</strong> la clase.</p>
+    <h3 id="app-alumno">Qué hace el alumno en la app</h3>
+    <p>Mis Reservas → detalle del plan → Ver clases disponibles → elige → Reservar. Ve progreso tipo “5 de 8 este mes” y fecha de renovación.</p>
+    <p>Si no lo deja reservar, en este orden: plan agotado / pausado / vencido; anticipación; clase llena; sede que el plan no cubre. Se verifica en la ficha.</p>
+    <h3 id="app-profesor">App de profesores</h3>
+    <p>App distinta a la del alumno (Play Store / App Store). Agenda (7 días atrás a 6 semanas), inscritos, vender plan, buscar alumnos, marcar asistencia (círculo: Pendiente → Presente → Ausente; atajo Todos presentes). Se puede inscribir a alguien que llegó sin reserva. Si no tiene cupo, queda pago pendiente para cobrarlo en el panel. La config profunda sigue en la web. El cobro nativo en la app no está en todos los centros: si no aparece, se cobra en el panel.</p>
+    <p class="say">Señal de uso de R1: <em>juntos venden un plan de prueba (aunque sea al dueño) y el alumno ve la clase en la app</em>, o queda el compromiso con fecha de quién lo hace.</p>
+
+    <h2 id="paso-8">Paso 8. Cierre y 2ª</h2>
+    <p>3–5 minutos. Sin 2ª fecha, la R1 no cerró.</p>
+    <ul>
+      <li>Repite la prioridad y lo que quedó hecho hoy.</li>
+      <li>Acción 48–72 h: el resto de horarios, cargar profesores, o que recepción venda el primer plan real.</li>
+      <li>Agenda la 2ª en el calendario del owner (no dejes que “después te escribo”).</li>
+      <li>Actualiza B2B3+ con responsable y fecha.</li>
+    </ul>
+    <p>Para R2, según lo que falte: más disciplinas, horarios fijos, permisos del equipo, reportes, consentimientos. No metas kiosko facial ni lista de espera en el cierre de R1.</p>
+    <div class="copybox">Hoy dejamos: [sede / 1 clase / 1 plan].
+Ustedes antes del [día]: [cargar el resto de horarios / vender 3 planes / que un alumno reserve en la app].
+Nos vemos el [día hora] para [lo que priorizaron].</div>
+
+    <h2 id="paso-9">Paso 9. No vender / no hay (R1)</h2>
+    <p>Vigente con la capacitación del <strong>7-sep-2026</strong>. Si el cliente lo pide, no improvises un sí.</p>
+    <table>
+      <tr><th>Tema</th><th>Qué dices</th></tr>
+      <tr><td>Colombia y México</td><td>Fitness no está abierto a venta. No configures “como Chile”</td></tr>
+      <tr><td>Lista de espera</td><td>El centro de ayuda ya describe el comportamiento (anotarse y pasar al siguiente sin confirmar). En la capacitación Producto la dejó <strong>en evaluación</strong>. No la uses como argumento de cierre. Si el interruptor aparece, no lo vendas como listo</td></tr>
+      <tr><td>Gift cards</td><td>No hay</td></tr>
+      <tr><td>Tope semanal dentro del plan</td><td>No hay. El alumno puede usar todas las clases de una vez</td></tr>
+      <tr><td>Bloquear por profesional (vacaciones)</td><td>No hay. Se cancelan instancias</td></tr>
+      <tr><td>Editar un plan y que cambie a todos los vigentes</td><td>Hoy solo aplica a altas nuevas</td></tr>
+      <tr><td>Pago recurrente con tarjeta</td><td>Solo Chile</td></tr>
+      <tr><td>Minisitio clásico de AgendaPro</td><td>La compra online de planes es app + marketplace / catálogo público de Fitness, no el minisitio de citas de app.agendapro.com</td></tr>
+      <tr><td>Reporte detallado de productos</td><td>La venta sale en Finanzas; el reporte fino aún no</td></tr>
+      <tr><td>Comprobante / voucher por WhatsApp</td><td>Pedido a Producto; no lo prometas</td></tr>
+      <tr><td>Kiosko facial / QR</td><td>Existe en producto; no es día 1 de onboarding</td></tr>
+      <tr><td>Ficha clínica</td><td>Producto la estaba por soltar la semana del 7-sep. Valida antes de decir “ya está”</td></tr>
+    </table>
+
+    <h2 id="si-entonces">Si… entonces</h2>
+    <table>
+      <tr><th>Si</th><th>Entonces</th></tr>
+      <tr><td>Cliente apurado</td><td>8–10 min a 4 temas + espejo; 1 clase + 1 plan; resto a la 2ª</td></tr>
+      <tr><td>Solo viene recepción</td><td>Simplifica; acuerda quién completa profesores y planes</td></tr>
+      <tr><td>Varias sedes</td><td>+10 min; no saltes espejo ni cierre. Una sede hoy, las otras en R2</td></tr>
+      <tr><td>Migración / muchos alumnos</td><td>Mínimo para operar; no cargues la base entera en la call</td></tr>
+      <tr><td>ISAPRE / boleta por sesión</td><td>El plan emite por el plan, no por clase. Hay workaround de reglas de facturación: no lo armes en R1; escala a quien opera FE y pide el ejemplo a Producto Fitness</td></tr>
+      <tr><td>Quiere horario fijo (siempre lun-mié-vie 18:00)</td><td>Existe: el cupo queda reservado y al renovar se descuenta solo. Si no hay plan en ese tramo, las reservas salen sin plan y el comercio decide. No es el núcleo de R1; déjalo para R2 si el dolor era otro</td></tr>
+      <tr><td>No-show / no responde / no usa</td><td>Playbook de silencio ONB (3 intentos). El usable de Fitness es: 1 plan vendible + 1 clase visible en app</td></tr>
+    </table>
+
+    <h2 id="anexo-horarios-fijos">Anexo. Horarios fijos (si sale en R1)</h2>
+    <p>El comercio asigna un cupo recurrente a un alumno. Si el plan vence, se pueden dejar días de gracia. Al renovar, el sistema descuenta esas clases del plan nuevo. Si en un tramo no hay plan activo, igual se crean las reservas y el comercio elige: cancelar, cortesía, etc.</p>
+
+    <h2 id="anexo-reportes">Anexo. Reportes (no es R1)</h2>
+    <ul>
+      <li>Inscripciones a clases (quién, clase, origen; incluye horario fijo cuando aplica).</li>
+      <li>Suscripciones y renovaciones; en Renovaciones: pocos cupos y planes vencidos sin plan activo.</li>
+      <li>Pago a profesores según tarifa vigente en cada fecha (grupales y personalizadas). Las tarifas tienen fecha de inicio: un precio nuevo no corre hacia atrás.</li>
+      <li>Horas de profesor.</li>
+    </ul>
+    <p>Finanzas: ventas y detalle; exportar a Excel con los filtros aplicados. Permisos: Administrador general, Administrador de sede, Recepcionista, Profesor. Facturación, si está activa, solo la ve el administrador general.</p>
+
+    <h2 id="anexo-config">Anexo. Configuración que no es el minuto 1</h2>
+    <ul>
+      <li>Clases de prueba: Configuración → Clases de prueba. 1 clase gratis para prospectos desde el marketplace.</li>
+      <li>Cancelación y anticipación: reglas del comercio; una clase puede tener anticipación distinta.</li>
+      <li>Marketplace y visibilidad: si el centro aparece, si se compran planes en línea, si se ven horarios.</li>
+      <li>Campos de alumno. Consentimientos: el comercio arma el texto; el alumno firma. En R1 solo menciónalo si el dolor era “me falta el descargo”.</li>
+      <li>Tarifas de profesor: fijo por clase, por tipo de plan, o por tramo de inscritos.</li>
+    </ul>
+
+    <h2 id="faq-alumno">FAQ corto para cuando el alumno escribe</h2>
+    <table>
+      <tr><th>Pregunta</th><th>Respuesta</th></tr>
+      <tr><td>No me deja reservar</td><td>Agotado, pausado, vencido, anticipación, llena, o sede que el plan no cubre</td></tr>
+      <tr><td>Falté, ¿me descontó?</td><td>Sí. Inasistencia gasta el cupo</td></tr>
+      <tr><td>¿Hasta cuándo cancelo?</td><td>Hasta el límite del centro. A tiempo: vuelve el cupo. Tarde: se gasta. Si hay tope de cancelaciones en el plan, la app se lo dice</td></tr>
+      <tr><td>Pausado / vencido / agotado / en prueba</td><td>Pausado = congelado por fechas. Vencido = pasó la vigencia. Agotado = vigente sin cupos. En prueba = activo con fecha de cobro</td></tr>
+    </table>
+    <p>Ayuda pública para reenviar: <a href="https://ayuda.agendapro.com/es/articles/15465873-centro-de-ayuda-agendapro-fitness-faq">Centro de ayuda AgendaPro Fitness</a>.</p>
+
+    <h2 id="no-hacer">No hagas esto en R1</h2>
+    <ul>
+      <li>Configurar en app.agendapro.com “como clases del producto clásico”.</li>
+      <li>Prometer lista de espera, gift card, tope semanal o Fitness en CO/MX.</li>
+      <li>Armar kiosko facial, ficha clínica o reglas de ISAPRE en la primera call.</li>
+      <li>Cargar todo el catálogo y olvidar espejo, CM y 2ª.</li>
+      <li>Dejar la reunión en “cualquier duda me escribes” sin fecha.</li>
+    </ul>
+
+    <footer>AgendaPro · CX Enablement · R1 Fitness · Fuentes: Blueprint Ruta A, ayuda.agendapro.com/15465873, capacitación 7-sep-2026 · Clave igual que Blueprint A</footer>
+  </div>
+</div>
+
+<div class="overlay" id="overlay" hidden></div>
+<aside class="drawer" id="drawer" role="dialog" aria-modal="true" hidden>
+  <div class="drawer-head">
+    <button type="button" class="drawer-close" id="drawer-close" aria-label="Cerrar">×</button>
+    <div class="drawer-phase" id="drawer-phase"></div>
+    <h2 id="drawer-title"></h2>
+  </div>
+  <div class="drawer-body" id="drawer-body"></div>
+  <div class="drawer-actions">
+    <a class="btn btn-primary" id="btn-full" href="#matriz" role="button">Ir al procedimiento de esta etapa →</a>
+    <button type="button" class="btn btn-ghost" id="btn-close">Cerrar</button>
+  </div>
+</aside>
+
+<script>
+(function () {
+  var KEY = 'kickoff-tl';
+  var gate = document.getElementById('gate');
+  var app = document.getElementById('app');
+  var gin = document.getElementById('gate-input');
+  var gerr = document.getElementById('gate-err');
+  function unlock() {
+    sessionStorage.setItem('ap_r1_fitness', '1');
+    gate.classList.add('hidden');
+    app.hidden = false;
+  }
+  function tryGate() {
+    if ((gin.value || '').trim().toLowerCase() === KEY) unlock();
+    else { gerr.textContent = 'Clave incorrecta'; gin.focus(); }
+  }
+  if (sessionStorage.getItem('ap_r1_fitness') === '1') unlock();
+  document.getElementById('gate-btn').onclick = tryGate;
+  gin.addEventListener('keydown', function (ev) { if (ev.key === 'Enter') tryGate(); });
+
+  var STEPS = {
+    p0: {
+      phase: 'Antes',
+      title: 'País, venta y URL',
+      anchor: 'paso-0',
+      html: '<ul><li>CL y AR: sigue.</li><li>CO y MX: stop. Fitness no está a la venta.</li><li>POS/FE: Track B, no este manual.</li><li>Entra a <strong>fitness.agendapro.com</strong>, no a app.agendapro.com.</li></ul><div class="stop">Si mezclas el producto clásico de “servicio tipo clase” con Fitness, el cliente configura el mundo equivocado.</div>'
+    },
+    p1: {
+      phase: 'Kickoff',
+      title: 'Encuadre y 4 temas',
+      anchor: 'paso-1',
+      html: '<ul><li>Una frase de objetivo: entender el centro y dejar 1 clase + 1 plan.</li><li>Motivo · dolor · antes · quién opera. En conversación, no como encuesta.</li><li>Dolor típico: cupos, no-show, cobro de planes, profesores.</li></ul><div class="stop">No configures en los primeros ~10 min sin espejo.</div>'
+    },
+    p2: {
+      phase: 'Kickoff',
+      title: 'Espejo y CM',
+      anchor: 'paso-2',
+      html: '<ul><li>“Si entendí bien, priorizamos X.”</li><li>Tarea B2B3+: prioridad, acción, responsable, fecha, señal de uso.</li><li>HubSpot no es la ficha de esta reunión.</li></ul>'
+    },
+    p3: {
+      phase: 'Config',
+      title: 'Cimientos',
+      anchor: 'paso-3',
+      html: '<ul><li>Sede → sala → categoría → profesor. Ese orden.</li><li>En R1 basta uno de cada.</li><li>Sin sala, la clase no tiene dónde dictarse.</li></ul><div class="stop">No empieces por el plan. El plan gasta clases que todavía no existen.</div>'
+    },
+    p4: {
+      phase: 'Config',
+      title: 'Clases',
+      anchor: 'paso-4',
+      html: '<ul><li>Catálogo + recurrencia + instancia.</li><li>Grupal, personalizada (1:1) y extraordinaria (suelta).</li><li>Cambiar el profesor de un día no rompe la serie. Cancelar un día tampoco.</li></ul><div class="stop">No hay bloqueo por profesional. Vacaciones = cancelar instancias.</div>'
+    },
+    p5: {
+      phase: 'Config',
+      title: 'Calendario',
+      anchor: 'paso-5',
+      html: '<ul><li>Hueco vacío: cita, clase suelta o bloquear.</li><li>Vista día (lado a lado) y vista profesores.</li><li>Inicio muestra clases de hoy y citas de hoy.</li></ul>'
+    },
+    p6: {
+      phase: 'Config',
+      title: 'Planes',
+      anchor: 'paso-6',
+      html: '<ul><li>Libre, por disciplina o grupos. Visible al público o solo caja.</li><li>Se edita y se desactiva; no se borra.</li><li>Pago recurrente con tarjeta: solo Chile.</li></ul><div class="stop">No hay “máximo 3 por semana”. El alumno puede gastar el plan de una vez.</div>'
+    },
+    p7: {
+      phase: 'Config',
+      title: 'Vender y app',
+      anchor: 'paso-7',
+      html: '<ul><li>Botón Vender: plan → alumno → pago (caja, link o pagar después).</li><li>El alumno reserva en la app AgendaPro y gasta el cupo.</li><li>No-show gasta. Cancelar a tiempo devuelve.</li></ul><div class="stop">Señal de uso: un plan vendido o un alumno que ya ve la clase. Si no da el tiempo, compromiso con fecha.</div>'
+    },
+    p8: {
+      phase: 'Cierre',
+      title: 'Cierre y 2ª',
+      anchor: 'paso-8',
+      html: '<ul><li>Qué quedó hecho + acción 48–72 h.</li><li>2ª en el calendario del owner.</li><li>Actualiza B2B3+.</li></ul><div class="stop">“Cualquier duda me escribes” sin fecha = R1 incompleta.</div>'
+    },
+    p9: {
+      phase: 'Cierre',
+      title: 'No vender / no hay',
+      anchor: 'paso-9',
+      html: '<ul><li>CO/MX, gift card, tope semanal, bloqueo por profesor: no.</li><li>Lista de espera: no la prometas; Producto la dejó en evaluación.</li><li>Kiosko facial y ficha clínica: no es día 1.</li></ul><div class="stop">Si no está en esta lista como sí, no lo cierres como vendido.</div>'
+    }
+  };
+
+  var viewFlujo = document.getElementById('view-flujo');
+  var viewMatriz = document.getElementById('view-matriz');
+  var tabFlujo = document.getElementById('tab-flujo');
+  var tabMatriz = document.getElementById('tab-matriz');
+  var overlay = document.getElementById('overlay');
+  var drawer = document.getElementById('drawer');
+  var currentAnchor = 'para-que';
+
+  function showFlujo() {
+    viewFlujo.classList.remove('hidden');
+    viewMatriz.classList.remove('visible');
+    tabFlujo.classList.add('active');
+    tabMatriz.classList.remove('active');
+    history.replaceState(null, '', '#flujo');
+    window.scrollTo(0, 0);
+  }
+  function showMatriz(anchor) {
+    closeDrawer();
+    viewFlujo.classList.add('hidden');
+    viewMatriz.classList.add('visible');
+    tabFlujo.classList.remove('active');
+    tabMatriz.classList.add('active');
+    history.replaceState(null, '', anchor ? ('#' + anchor) : '#guia');
+    function go() {
+      if (!anchor) { window.scrollTo(0, 0); return; }
+      var el = document.getElementById(anchor);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        el.classList.remove('anchor-flash');
+        void el.offsetWidth;
+        el.classList.add('anchor-flash');
+        setTimeout(function () { el.classList.remove('anchor-flash'); }, 2400);
+      }
+    }
+    requestAnimationFrame(function () { requestAnimationFrame(go); });
+    setTimeout(go, 120);
+  }
+  tabFlujo.addEventListener('click', showFlujo);
+  tabMatriz.addEventListener('click', function () { showMatriz(); });
+
+  function openDrawer(id) {
+    var s = STEPS[id]; if (!s) return;
+    currentAnchor = s.anchor;
+    document.getElementById('drawer-phase').textContent = s.phase;
+    document.getElementById('drawer-title').textContent = s.title;
+    document.getElementById('drawer-body').innerHTML = s.html;
+    overlay.hidden = false; drawer.hidden = false;
+    requestAnimationFrame(function () {
+      overlay.classList.add('open');
+      drawer.classList.add('open');
+    });
+    document.querySelectorAll('.node').forEach(function (n) {
+      n.classList.toggle('active', n.getAttribute('data-id') === id);
+    });
+  }
+  function closeDrawer() {
+    overlay.classList.remove('open');
+    drawer.classList.remove('open');
+    setTimeout(function () { overlay.hidden = true; drawer.hidden = true; }, 220);
+    document.querySelectorAll('.node').forEach(function (n) { n.classList.remove('active'); });
+  }
+  document.querySelectorAll('.node').forEach(function (n) {
+    n.addEventListener('click', function () { openDrawer(n.getAttribute('data-id')); });
+  });
+  overlay.addEventListener('click', closeDrawer);
+  document.getElementById('drawer-close').addEventListener('click', closeDrawer);
+  document.getElementById('btn-close').addEventListener('click', closeDrawer);
+  document.getElementById('btn-full').addEventListener('click', function (ev) {
+    ev.preventDefault();
+    showMatriz(currentAnchor);
+  });
+
+  function norm(s) { return (s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ''); }
+  var headings = Array.prototype.slice.call(viewMatriz.querySelectorAll('h1[id], h2[id], h3[id], .todo[id]'));
+  var INDEX = headings.map(function (h) {
+    var t = (h.querySelector('b') ? h.querySelector('b').textContent : h.textContent).trim();
+    return { id: h.id, text: t, norm: norm(t) };
+  });
+  var extra = [
+    { id: 'paso-0', text: 'Paso 0 país URL Chile Argentina Colombia México', norm: norm('paso 0 pais url chile argentina colombia mexico fitness.agendapro.com') },
+    { id: 'paso-4', text: 'Paso 4 clases cupos extraordinaria personalizada', norm: norm('paso 4 clases cupos extraordinaria personalizada recurrencia instancia') },
+    { id: 'paso-6', text: 'Paso 6 planes libre disciplina visible', norm: norm('paso 6 planes libre disciplina visible tope semanal') },
+    { id: 'paso-7', text: 'Paso 7 vender app alumno profesor', norm: norm('paso 7 vender app alumno profesor pagar despues') },
+    { id: 'paso-9', text: 'Paso 9 no vender lista de espera gift card', norm: norm('paso 9 no vender lista de espera gift card kiosko facial') },
+    { id: 'anexo-horarios-fijos', text: 'Horarios fijos', norm: norm('horario fijo cupo protegido') },
+    { id: 'faq-alumno', text: 'FAQ alumno no reserva no-show', norm: norm('faq alumno no reserva noshow pausado vencido agotado') }
+  ];
+  INDEX = INDEX.concat(extra);
+  var input = document.getElementById('topic-search');
+  var resultsEl = document.getElementById('search-results');
+  var matches = [];
+  function closeResults() { resultsEl.classList.remove('open'); resultsEl.innerHTML = ''; matches = []; }
+  function goTo(anchor) { closeResults(); input.value = ''; showMatriz(anchor); }
+  function render(q) {
+    var nq = norm(q).trim();
+    if (!nq) { closeResults(); return; }
+    var tokens = nq.split(/\s+/).filter(Boolean);
+    matches = INDEX.filter(function (item) {
+      return tokens.every(function (tk) { return item.norm.indexOf(tk) !== -1; });
+    }).slice(0, 10);
+    if (!matches.length) {
+      resultsEl.innerHTML = '<li class="r-empty">Sin coincidencias</li>';
+      resultsEl.classList.add('open'); return;
+    }
+    resultsEl.innerHTML = matches.map(function (m) {
+      return '<li><button type="button" data-anchor="' + m.id + '">' + m.text.replace(/</g, '&lt;') + '</button></li>';
+    }).join('');
+    resultsEl.classList.add('open');
+  }
+  input.addEventListener('input', function () { render(input.value); });
+  resultsEl.addEventListener('click', function (ev) {
+    var b = ev.target.closest('button'); if (b) goTo(b.getAttribute('data-anchor'));
+  });
+  input.addEventListener('keydown', function (ev) {
+    if (ev.key === 'Enter' && matches.length) { ev.preventDefault(); goTo(matches[0].id); }
+    else if (ev.key === 'Escape') closeResults();
+  });
+  document.addEventListener('click', function (ev) {
+    if (!ev.target.closest('.search-wrap')) closeResults();
+  });
+
+  if (location.hash && location.hash !== '#flujo') {
+    var h = location.hash.replace('#', '');
+    if (document.getElementById(h) || STEPS[h]) {
+      showMatriz(STEPS[h] ? STEPS[h].anchor : h);
+    }
+  }
+})();
+</script>
+</body>
+</html>
