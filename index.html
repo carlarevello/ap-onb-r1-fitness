@@ -88,6 +88,7 @@
   .node .blurb { display: block; font-size: 0.86rem; font-weight: 300; color: var(--navy-mid); }
   .overlay { position: fixed; inset: 0; background: rgba(29, 29, 61, 0.35); opacity: 0; pointer-events: none; transition: opacity 0.2s; z-index: 40; }
   .overlay.open { opacity: 1; pointer-events: auto; }
+  .overlay[hidden] { display: none !important; }
   .drawer {
     position: fixed; top: 0; right: 0; width: var(--drawer-w); height: 100%;
     background: var(--white); box-shadow: -12px 0 40px rgba(29, 29, 61, 0.12);
@@ -95,6 +96,7 @@
     z-index: 50; display: flex; flex-direction: column;
   }
   .drawer.open { transform: translateX(0); }
+  .drawer[hidden] { display: none !important; }
   .drawer-head { padding: 1.35rem 1.35rem 1rem; border-bottom: 1px solid var(--line); flex-shrink: 0; }
   .drawer-phase { font-size: 0.68rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--naranja); margin-bottom: 0.35rem; }
   .drawer-head h2 { font-size: 1.2rem; font-weight: 600; padding-right: 2rem; }
@@ -190,6 +192,64 @@
   .say em { color: var(--navy); font-style: italic; }
   footer { margin-top: 1.75rem; font-size: .78rem; color: var(--gris-mid); }
   code { font-family: ui-monospace, Menlo, monospace; font-size: .85em; background: #f0f0f5; padding: .05em .3em; border-radius: 4px; }
+  #view-mapa.hidden { display: none; }
+  .idea {
+    display: grid; grid-template-columns: 1fr auto 1fr; gap: .75rem; align-items: stretch;
+    margin: 0 0 1.5rem;
+  }
+  .idea-card {
+    background: var(--white); border: 1px solid var(--line); border-radius: 12px;
+    padding: 1rem 1.1rem;
+  }
+  .idea-card .k { font-size: .68rem; font-weight: 500; letter-spacing: .12em; text-transform: uppercase; color: var(--navy-light); margin-bottom: .35rem; }
+  .idea-card .t { font-size: 1.15rem; font-weight: 500; margin-bottom: .25rem; }
+  .idea-card .d { font-size: .9rem; font-weight: 300; color: var(--navy-mid); }
+  .idea-card.now { border-color: var(--morado); background: var(--morado-pale); }
+  .idea-vs {
+    align-self: center; font-size: .72rem; font-weight: 500; letter-spacing: .1em;
+    text-transform: uppercase; color: var(--naranja);
+  }
+  .chain { display: flex; flex-direction: column; gap: .35rem; margin-bottom: 1.5rem; }
+  .chain-row { display: flex; flex-wrap: wrap; align-items: stretch; gap: .35rem; }
+  .box {
+    flex: 1 1 180px; background: var(--white); border: 1px solid var(--line);
+    border-radius: 12px; padding: 1rem 1.05rem; text-align: left; cursor: pointer;
+    font: inherit; color: inherit; min-height: 118px;
+  }
+  .box:hover, .box:focus-visible {
+    border-color: var(--morado); box-shadow: 0 8px 22px rgba(29,29,61,.08); outline: none;
+  }
+  .box.active { border-color: var(--naranja); }
+  .box .n {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 1.5rem; height: 1.5rem; border-radius: 999px; background: var(--morado);
+    color: #fff; font-size: .75rem; font-weight: 600; margin-bottom: .45rem;
+  }
+  .box .t { display: block; font-size: 1.12rem; font-weight: 500; margin-bottom: .2rem; }
+  .box .d { display: block; font-size: .86rem; font-weight: 300; color: var(--navy-mid); }
+  .arr {
+    flex: 0 0 auto; display: flex; flex-direction: column; align-items: center; justify-content: center;
+    min-width: 2.2rem; color: var(--morado); font-weight: 500; font-size: 1.35rem; line-height: 1;
+    padding: .2rem 0;
+  }
+  .arr span { font-size: .62rem; font-weight: 500; letter-spacing: .04em; text-transform: uppercase; color: var(--navy-light); max-width: 4.8rem; text-align: center; line-height: 1.2; }
+  .arr-down {
+    flex-direction: row; align-self: flex-start; margin: .15rem 0 .15rem 1.4rem;
+    height: auto; gap: .35rem; font-size: 1.15rem;
+  }
+  .arr-down span { display: inline; max-width: none; text-transform: none; letter-spacing: 0; font-size: .72rem; }
+  .memo {
+    background: var(--white); border-left: 3px solid var(--morado); border-radius: 0 10px 10px 0;
+    padding: .85rem 1rem; font-size: 1.02rem; font-weight: 400; margin-bottom: 1.25rem;
+  }
+  @media (max-width: 720px) {
+    .idea { grid-template-columns: 1fr; }
+    .idea-vs { text-align: center; }
+    .chain-row { flex-direction: column; }
+    .arr { flex-direction: row; min-width: 0; height: auto; transform: rotate(90deg); margin: .1rem auto; }
+    .arr span { display: none; }
+    .arr-down { margin-left: 0; transform: none; }
+  }
 </style>
 </head>
 <body>
@@ -208,7 +268,8 @@
     <span class="badge">Interno · Onboarding · R1 Fitness</span>
     <div class="topbar-tools">
       <div class="view-switch" role="tablist">
-        <button type="button" class="active" id="tab-flujo">Flujo interactivo</button>
+        <button type="button" class="active" id="tab-mapa">Configuración limpia</button>
+        <button type="button" id="tab-flujo">Flujo de la R1</button>
         <button type="button" id="tab-matriz">Procedimiento completo</button>
       </div>
       <div class="search-wrap">
@@ -219,7 +280,87 @@
     </div>
   </div>
 
-  <div id="view-flujo">
+  <div id="view-mapa">
+    <div class="page">
+      <h1>Así se arma un centro Fitness</h1>
+      <p class="lead">Ocho cajas, en este orden. Si saltas una, la siguiente no tiene de dónde colgarse. Haz clic en cada caja.</p>
+
+      <div class="idea">
+        <div class="idea-card">
+          <div class="k">AgendaPro de siempre</div>
+          <div class="t">Una persona, una cita</div>
+          <div class="d">El cliente pide hora con un profesional. Un servicio, un turno.</div>
+        </div>
+        <div class="idea-vs">ahora</div>
+        <div class="idea-card now">
+          <div class="k">AgendaPro Fitness</div>
+          <div class="t">Un plan, cupos de clase</div>
+          <div class="d">El alumno compra un paquete (ej. 8 al mes) y gasta un cupo cada vez que reserva.</div>
+        </div>
+      </div>
+
+      <p class="memo">Frase para llevarte: primero el lugar, después quién enseña, después la clase, después lo que se vende. No empieces por el plan.</p>
+
+      <div class="chain" aria-label="Orden de configuración">
+        <div class="chain-row">
+          <button type="button" class="box" data-id="c1">
+            <span class="n">1</span>
+            <span class="t">El local</span>
+            <span class="d">Dónde queda el negocio. Una dirección.</span>
+          </button>
+          <div class="arr" aria-hidden="true">→</div>
+          <button type="button" class="box" data-id="c2">
+            <span class="n">2</span>
+            <span class="t">La sala</span>
+            <span class="d">El espacio adentro: yoga, piscina, reformer.</span>
+          </button>
+          <div class="arr" aria-hidden="true">→</div>
+          <button type="button" class="box" data-id="c3">
+            <span class="n">3</span>
+            <span class="t">La disciplina</span>
+            <span class="d">El tipo: yoga, funcional, natación. Pinta el calendario.</span>
+          </button>
+        </div>
+        <div class="arr arr-down" aria-hidden="true">↓<span>después</span></div>
+        <div class="chain-row">
+          <button type="button" class="box" data-id="c4">
+            <span class="n">4</span>
+            <span class="t">El profesor</span>
+            <span class="d">Quién enseña. Si usa app, créale acceso.</span>
+          </button>
+          <div class="arr" aria-hidden="true">→</div>
+          <button type="button" class="box" data-id="c5">
+            <span class="n">5</span>
+            <span class="t">La clase</span>
+            <span class="d">La receta que se repite cada semana. Cupo y horario.</span>
+          </button>
+          <div class="arr" aria-hidden="true">→</div>
+          <button type="button" class="box" data-id="c6">
+            <span class="n">6</span>
+            <span class="t">El plan</span>
+            <span class="d">Lo que el alumno compra: 8 clases, 1 mes, $.</span>
+          </button>
+        </div>
+        <div class="arr arr-down" aria-hidden="true">↓<span>después</span></div>
+        <div class="chain-row">
+          <button type="button" class="box" data-id="c7">
+            <span class="n">7</span>
+            <span class="t">Vender</span>
+            <span class="d">Botón Vender: plan + alumno + cobro (caja o link).</span>
+          </button>
+          <div class="arr" aria-hidden="true">→</div>
+          <button type="button" class="box" data-id="c8">
+            <span class="n">8</span>
+            <span class="t">El alumno reserva</span>
+            <span class="d">Entra a la app, elige la clase, gasta un cupo.</span>
+          </button>
+        </div>
+      </div>
+      <p class="hint">Clic en cada caja: qué es, dónde se hace y qué le dices. En la R1 basta <strong>uno de cada</strong>. El detalle de clics está en Procedimiento completo.</p>
+    </div>
+  </div>
+
+  <div id="view-flujo" class="hidden">
     <div class="page">
       <h1>Asesoría 1 — AgendaPro Fitness</h1>
       <p class="lead">Misma R1 de Ruta A (45 min, 4 temas, espejo, 2ª). Otro producto: clases con cupo y planes, no el AgendaPro de citas 1:1.</p>
@@ -632,34 +773,105 @@ Nos vemos el [día hora] para [lo que priorizaron].</div>
       title: 'No vender / no hay',
       anchor: 'paso-9',
       html: '<ul><li>CO/MX, gift card, tope semanal, bloqueo por profesor: no.</li><li>Lista de espera: no la prometas; Producto la dejó en evaluación.</li><li>Kiosko facial y ficha clínica: no es día 1.</li></ul><div class="stop">Si no está en esta lista como sí, no lo cierres como vendido.</div>'
+    },
+    c1: {
+      phase: 'Caja 1',
+      title: 'El local',
+      anchor: 'paso-3',
+      html: '<p>Es cada dirección física. Si tienen dos sucursales, son dos locales.</p><ul><li>Dónde: Configuración → Sedes → Agregar sede.</li><li>Qué pones: nombre y dirección.</li><li>Qué le dices: “Primero el lugar. Sin local, la sala no sabe a qué sucursal pertenece.”</li></ul><div class="stop">En R1 basta uno. Las otras sucursales van a la 2ª.</div>'
+    },
+    c2: {
+      phase: 'Caja 2',
+      title: 'La sala',
+      anchor: 'paso-3',
+      html: '<p>Es el espacio adentro del local: sala de yoga, carril, reformer.</p><ul><li>Dónde: Configuración → Salas.</li><li>La sala se pega a un local. Por eso el local va primero.</li><li>Qué le dices: “La clase necesita un piso donde dictarse.”</li></ul>'
+    },
+    c3: {
+      phase: 'Caja 3',
+      title: 'La disciplina',
+      anchor: 'paso-3',
+      html: '<p>El tipo de clase: yoga, funcional, natación. Es el color que ves en el calendario.</p><ul><li>Dónde: Clases → Nueva categoría.</li><li>Sirve para filtrar y para armar planes “solo yoga” o “un poco de cada una”.</li><li>Qué le dices: “No es un horario. Es el nombre de la disciplina.”</li></ul>'
+    },
+    c4: {
+      phase: 'Caja 4',
+      title: 'El profesor',
+      anchor: 'paso-3',
+      html: '<p>Quién enseña. Se asigna a las clases.</p><ul><li>Dónde: Usuarios → Agregar.</li><li>Si va a usar la app de profesor, marca crear acceso. Si solo lo anotas en el horario, déjalo sin login.</li><li>Qué le dices: “Si cambia el profesor un lunes, movemos solo ese lunes. No se rompe toda la semana.”</li></ul>'
+    },
+    c5: {
+      phase: 'Caja 5',
+      title: 'La clase',
+      anchor: 'paso-4',
+      html: '<p>La receta: nombre, cupo, duración y el patrón semanal (lunes 9:00, etc.).</p><ul><li>Dónde: Clases → Nueva clase.</li><li>Tres capas: catálogo (la receta) → recurrencia (cada semana) → instancia (ese día).</li><li>Cancelar un día no borra toda la serie.</li></ul><div class="stop">Hay tres tipos: grupal (varios), personalizada (1 a 1) y extraordinaria (suelta, un día).</div>'
+    },
+    c6: {
+      phase: 'Caja 6',
+      title: 'El plan',
+      anchor: 'paso-6',
+      html: '<p>Lo que el alumno compra. Ej.: 8 clases, 1 mes, un precio.</p><ul><li>Dónde: Planes → Crear plan.</li><li>Libre = las usa en cualquier disciplina. Por disciplina = cupos separados.</li><li>Visible al público = sale en la app. Si no, solo se vende en recepción.</li></ul><div class="stop">No hay “máximo 3 por semana”. El alumno puede gastar el plan de una vez. Dilo en la R1.</div>'
+    },
+    c7: {
+      phase: 'Caja 7',
+      title: 'Vender',
+      anchor: 'paso-7',
+      html: '<p>Ahí el plan pasa de “existe” a “este alumno ya lo tiene”.</p><ul><li>Dónde: botón Vender, arriba a la derecha.</li><li>Orden: el plan → el alumno → el cobro (caja, link o pagar después).</li><li>Qué le dices: “Sin esta venta, el alumno no puede reservar.”</li></ul>'
+    },
+    c8: {
+      phase: 'Caja 8',
+      title: 'El alumno reserva',
+      anchor: 'paso-7',
+      html: '<p>Entra a la app AgendaPro, ve su plan (5 de 8) y toma una clase. Gasta un cupo.</p><ul><li>Si falta: el plan está agotado, pausado o vencido; la clase llena; o reservó con demasiada anticipación.</li><li>Si no va: el cupo se gasta igual. Si cancela a tiempo, el cupo vuelve.</li><li>Señal de uso de R1: un plan vendido o un alumno que ya ve la clase.</li></ul>'
     }
   };
 
+  var viewMapa = document.getElementById('view-mapa');
   var viewFlujo = document.getElementById('view-flujo');
   var viewMatriz = document.getElementById('view-matriz');
+  var tabMapa = document.getElementById('tab-mapa');
   var tabFlujo = document.getElementById('tab-flujo');
   var tabMatriz = document.getElementById('tab-matriz');
   var overlay = document.getElementById('overlay');
   var drawer = document.getElementById('drawer');
   var currentAnchor = 'para-que';
 
-  function showFlujo() {
-    viewFlujo.classList.remove('hidden');
-    viewMatriz.classList.remove('visible');
-    tabFlujo.classList.add('active');
+  function clearTabs() {
+    tabMapa.classList.remove('active');
+    tabFlujo.classList.remove('active');
     tabMatriz.classList.remove('active');
-    history.replaceState(null, '', '#flujo');
-    window.scrollTo(0, 0);
+    viewMapa.classList.add('hidden');
+    viewFlujo.classList.add('hidden');
+    viewMatriz.classList.remove('visible');
   }
-  function showMatriz(anchor) {
+  function closeDrawerNow() {
+    if (document.activeElement && drawer.contains(document.activeElement)) {
+      document.activeElement.blur();
+    }
     overlay.classList.remove('open');
     drawer.classList.remove('open');
     overlay.hidden = true;
     drawer.hidden = true;
-    document.querySelectorAll('.node').forEach(function (n) { n.classList.remove('active'); });
-    viewFlujo.classList.add('hidden');
+    document.querySelectorAll('.node, .box').forEach(function (n) { n.classList.remove('active'); });
+  }
+  function showMapa() {
+    closeDrawerNow();
+    clearTabs();
+    viewMapa.classList.remove('hidden');
+    tabMapa.classList.add('active');
+    history.replaceState(null, '', '#mapa');
+    window.scrollTo(0, 0);
+  }
+  function showFlujo() {
+    closeDrawerNow();
+    clearTabs();
+    viewFlujo.classList.remove('hidden');
+    tabFlujo.classList.add('active');
+    history.replaceState(null, '', '#flujo');
+    window.scrollTo(0, 0);
+  }
+  function showMatriz(anchor) {
+    closeDrawerNow();
+    clearTabs();
     viewMatriz.classList.add('visible');
-    tabFlujo.classList.remove('active');
     tabMatriz.classList.add('active');
     history.replaceState(null, '', anchor ? ('#' + anchor) : '#guia');
     function go() {
@@ -674,8 +886,9 @@ Nos vemos el [día hora] para [lo que priorizaron].</div>
       }
     }
     requestAnimationFrame(function () { requestAnimationFrame(go); });
-    setTimeout(go, 120);
+    setTimeout(go, 280);
   }
+  tabMapa.addEventListener('click', showMapa);
   tabFlujo.addEventListener('click', showFlujo);
   tabMatriz.addEventListener('click', function () { showMatriz(); });
 
@@ -690,7 +903,7 @@ Nos vemos el [día hora] para [lo que priorizaron].</div>
       overlay.classList.add('open');
       drawer.classList.add('open');
     });
-    document.querySelectorAll('.node').forEach(function (n) {
+    document.querySelectorAll('.node, .box').forEach(function (n) {
       n.classList.toggle('active', n.getAttribute('data-id') === id);
     });
   }
@@ -698,9 +911,9 @@ Nos vemos el [día hora] para [lo que priorizaron].</div>
     overlay.classList.remove('open');
     drawer.classList.remove('open');
     setTimeout(function () { overlay.hidden = true; drawer.hidden = true; }, 220);
-    document.querySelectorAll('.node').forEach(function (n) { n.classList.remove('active'); });
+    document.querySelectorAll('.node, .box').forEach(function (n) { n.classList.remove('active'); });
   }
-  document.querySelectorAll('.node').forEach(function (n) {
+  document.querySelectorAll('.node, .box').forEach(function (n) {
     n.addEventListener('click', function () { openDrawer(n.getAttribute('data-id')); });
   });
   overlay.addEventListener('click', closeDrawer);
@@ -723,6 +936,9 @@ Nos vemos el [día hora] para [lo que priorizaron].</div>
     { id: 'paso-6', text: 'Paso 6 planes libre disciplina visible', norm: norm('paso 6 planes libre disciplina visible tope semanal') },
     { id: 'paso-7', text: 'Paso 7 vender app alumno profesor', norm: norm('paso 7 vender app alumno profesor pagar despues') },
     { id: 'paso-9', text: 'Paso 9 no vender lista de espera gift card', norm: norm('paso 9 no vender lista de espera gift card kiosko facial') },
+    { id: 'paso-3', text: 'Configuración limpia local sala disciplina profesor', norm: norm('configuracion limpia local sede sala disciplina categoria profesor cimientos') },
+    { id: 'paso-4', text: 'Clase receta cupo recurrencia', norm: norm('clase receta cupo recurrencia instancia extraordinaria') },
+    { id: 'paso-6', text: 'Plan 8 clases vender', norm: norm('plan 8 clases vender cupos disciplina') },
     { id: 'anexo-horarios-fijos', text: 'Horarios fijos', norm: norm('horario fijo cupo protegido') },
     { id: 'faq-alumno', text: 'FAQ alumno no reserva no-show', norm: norm('faq alumno no reserva noshow pausado vencido agotado') }
   ];
@@ -760,7 +976,8 @@ Nos vemos el [día hora] para [lo que priorizaron].</div>
     if (!ev.target.closest('.search-wrap')) closeResults();
   });
 
-  if (location.hash && location.hash !== '#flujo') {
+  if (location.hash === '#flujo') showFlujo();
+  else if (location.hash && location.hash !== '#mapa') {
     var h = location.hash.replace('#', '');
     if (document.getElementById(h) || STEPS[h]) {
       showMatriz(STEPS[h] ? STEPS[h].anchor : h);
