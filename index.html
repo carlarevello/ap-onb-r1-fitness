@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>R1 AgendaPro Fitness — Onboarding</title>
 <link rel="preconnect" href="https://api.fontshare.com"/>
-<link href="https://api.fontshare.com/v2/css?f[]=clash-display@300,400,500,600&display=swap" rel="stylesheet"/>
+<link href="https://api.fontshare.com/v2/css?f[]=clash-display@400,500,600&f[]=satoshi@400,500,700&display=swap" rel="stylesheet"/>
 <style>
   :root {
     --navy: #1D1D3D;
@@ -19,14 +19,24 @@
     --white: #FFFFFF;
     --line: #E4E4EC;
     --drawer-w: min(420px, 92vw);
+    --font-display: 'Clash Display', system-ui, sans-serif;
+    --font-body: 'Satoshi', system-ui, sans-serif;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
-    font-family: 'Clash Display', system-ui, sans-serif;
+    font-family: var(--font-body);
     background: var(--gris);
     color: var(--navy);
     min-height: 100vh;
-    line-height: 1.45;
+    line-height: 1.5;
+    font-weight: 400;
+  }
+  h1, h2, h3,
+  .badge, .phase-label, .node .num, .node .title,
+  .drawer-phase, .drawer-head h2, .todo b,
+  .idea-card .k, .idea-card .t, .box .n, .box .t,
+  .view-switch button {
+    font-family: var(--font-display);
   }
   #gate {
     position: fixed; inset: 0; z-index: 80;
@@ -40,8 +50,8 @@
     max-width: 400px; width: 100%;
     box-shadow: 0 20px 50px rgba(0, 0, 0, .25);
   }
-  .gate-card h1 { font-size: 1.2rem; font-weight: 600; margin-bottom: .35rem; }
-  .gate-card p { font-size: .9rem; color: var(--navy-mid); font-weight: 300; margin-bottom: 1rem; }
+  .gate-card h1 { font-family: var(--font-display); font-size: 1.2rem; font-weight: 600; margin-bottom: .35rem; }
+  .gate-card p { font-size: .9rem; color: var(--navy-mid); font-weight: 400; margin-bottom: 1rem; }
   .gate-card input {
     width: 100%; padding: .7rem; border: 1px solid var(--line);
     border-radius: 8px; font: inherit; margin-bottom: .75rem;
@@ -58,8 +68,8 @@
     color: var(--naranja); background: #FFF0EB;
     padding: 0.35rem 0.7rem; border-radius: 4px; margin-bottom: 0.75rem;
   }
-  h1 { font-size: clamp(1.4rem, 3vw, 1.85rem); font-weight: 600; letter-spacing: -0.02em; margin-bottom: 0.35rem; }
-  .lead { font-weight: 300; font-size: 1.02rem; color: var(--navy-mid); max-width: 42rem; margin-bottom: 1.25rem; }
+  h1 { font-family: var(--font-display); font-size: clamp(1.4rem, 3vw, 1.85rem); font-weight: 600; letter-spacing: -0.02em; margin-bottom: 0.35rem; }
+  .lead { font-weight: 400; font-size: 1.02rem; color: var(--navy-mid); max-width: 42rem; margin-bottom: 1.25rem; }
   .hint { font-size: 0.88rem; color: var(--gris-mid); margin-bottom: 1.5rem; }
   .hint strong { color: var(--navy-mid); font-weight: 500; }
   .phase { margin-bottom: 1.5rem; }
@@ -85,7 +95,7 @@
   .node.stop-node { border-left-color: var(--naranja); }
   .node .num { display: block; font-size: 0.7rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--navy-light); margin-bottom: 0.25rem; }
   .node .title { display: block; font-size: 1.05rem; font-weight: 500; margin-bottom: 0.35rem; }
-  .node .blurb { display: block; font-size: 0.86rem; font-weight: 300; color: var(--navy-mid); }
+  .node .blurb { display: block; font-size: 0.86rem; font-weight: 400; color: var(--navy-mid); }
   .overlay { position: fixed; inset: 0; background: rgba(29, 29, 61, 0.35); opacity: 0; pointer-events: none; transition: opacity 0.2s; z-index: 40; }
   .overlay.open { opacity: 1; pointer-events: auto; }
   .overlay[hidden] { display: none !important; }
@@ -105,7 +115,7 @@
     border: none; background: var(--gris); border-radius: 8px; cursor: pointer;
     font-size: 1.25rem; color: var(--navy);
   }
-  .drawer-body { padding: 1.25rem 1.35rem; overflow-y: auto; flex: 1; font-weight: 300; font-size: 0.95rem; }
+  .drawer-body { padding: 1.25rem 1.35rem; overflow-y: auto; flex: 1; font-weight: 400; font-size: 0.95rem; }
   .drawer-body ul { margin: 0.75rem 0 1rem; padding-left: 1.1rem; }
   .drawer-body li { margin-bottom: 0.4rem; }
   .drawer-body strong { font-weight: 500; }
@@ -120,7 +130,7 @@
   .btn-ghost { background: transparent; color: var(--navy-mid); border: 1px solid var(--line); }
   .view-switch { display: flex; gap: 0.5rem; flex-wrap: wrap; }
   .view-switch button {
-    font: inherit; font-weight: 500; font-size: 0.9rem; padding: 0.55rem 1rem;
+    font-family: var(--font-display); font-weight: 500; font-size: 0.9rem; padding: 0.55rem 1rem;
     border-radius: 8px; border: 1px solid var(--line); background: var(--white);
     color: var(--navy-mid); cursor: pointer;
   }
@@ -128,13 +138,13 @@
   #view-matriz {
     display: none; max-width: 880px; margin: 0 auto; padding: 1rem 1.25rem 4rem;
     background: var(--white);
-    font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+    font-family: var(--font-body);
     line-height: 1.55;
   }
   #view-matriz.visible { display: block; }
   #view-flujo.hidden { display: none; }
   #view-matriz h1, #view-matriz h2, #view-matriz h3 {
-    font-family: 'Clash Display', system-ui, sans-serif; font-weight: 600; color: var(--navy);
+    font-family: var(--font-display); font-weight: 600; color: var(--navy);
   }
   #view-matriz h1 { font-size: 1.6rem; margin: 0 0 .4rem; }
   #view-matriz h2 { font-size: 1.15rem; margin: 1.75rem 0 .5rem; }
@@ -187,7 +197,7 @@
     background: var(--gris); border: 1px solid var(--line); border-radius: 10px;
     padding: 1rem 1.1rem; margin: .55rem 0;
   }
-  .todo b { display: block; font-family: 'Clash Display', system-ui, sans-serif; font-size: 1.02rem; margin-bottom: .25rem; }
+  .todo b { display: block; font-family: var(--font-display); font-size: 1.02rem; margin-bottom: .25rem; }
   .say { font-size: .9rem; color: var(--navy-mid); margin-top: .4rem; }
   .say em { color: var(--navy); font-style: italic; }
   footer { margin-top: 1.75rem; font-size: .78rem; color: var(--gris-mid); }
@@ -203,7 +213,7 @@
   }
   .idea-card .k { font-size: .68rem; font-weight: 500; letter-spacing: .12em; text-transform: uppercase; color: var(--navy-light); margin-bottom: .35rem; }
   .idea-card .t { font-size: 1.15rem; font-weight: 500; margin-bottom: .25rem; }
-  .idea-card .d { font-size: .9rem; font-weight: 300; color: var(--navy-mid); }
+  .idea-card .d { font-size: .9rem; font-weight: 400; color: var(--navy-mid); }
   .idea-card.now { border-color: var(--morado); background: var(--morado-pale); }
   .idea-vs {
     align-self: center; font-size: .72rem; font-weight: 500; letter-spacing: .1em;
@@ -226,7 +236,7 @@
     color: #fff; font-size: .75rem; font-weight: 600; margin-bottom: .45rem;
   }
   .box .t { display: block; font-size: 1.12rem; font-weight: 500; margin-bottom: .2rem; }
-  .box .d { display: block; font-size: .86rem; font-weight: 300; color: var(--navy-mid); }
+  .box .d { display: block; font-size: .86rem; font-weight: 400; color: var(--navy-mid); }
   .arr {
     flex: 0 0 auto; display: flex; flex-direction: column; align-items: center; justify-content: center;
     min-width: 2.2rem; color: var(--morado); font-weight: 500; font-size: 1.35rem; line-height: 1;
@@ -240,7 +250,7 @@
   .arr-down span { display: inline; max-width: none; text-transform: none; letter-spacing: 0; font-size: .72rem; }
   .memo {
     background: var(--white); border-left: 3px solid var(--morado); border-radius: 0 10px 10px 0;
-    padding: .85rem 1rem; font-size: 1.02rem; font-weight: 400; margin-bottom: 1.25rem;
+    padding: .85rem 1rem; font-size: 1.02rem; font-weight: 500; margin-bottom: 1.25rem;
   }
   @media (max-width: 720px) {
     .idea { grid-template-columns: 1fr; }
