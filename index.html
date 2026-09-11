@@ -305,7 +305,7 @@
         <div class="idea-card now">
           <div class="k">AgendaPro Fitness</div>
           <div class="t">Un plan, cupos de clase</div>
-          <div class="d">El alumno compra un paquete (ej. 8 al mes) y gasta un cupo cada vez que reserva.</div>
+          <div class="d">El alumno compra un paquete (ej. 8 al mes) y gasta un cupo cada vez que reserva. En la misma cuenta pueden convivir citas 1:1.</div>
         </div>
       </div>
 
@@ -348,7 +348,7 @@
           <button type="button" class="box" data-id="c6">
             <span class="n">6</span>
             <span class="t">El alumno reserva</span>
-            <span class="d">Entra a la app, elige la clase, gasta un cupo.</span>
+            <span class="d">Entra a la App Mobile, elige la clase, gasta un cupo.</span>
           </button>
         </div>
       </div>
@@ -439,14 +439,14 @@
   </div>
 
   <div id="view-matriz">
-    <span class="badge">Procedimiento · R1 Fitness · 10 sep 2026</span>
+    <span class="badge">Procedimiento · R1 Fitness · 11 sep 2026</span>
     <h1 id="para-que">Manual R1 — AgendaPro Fitness</h1>
     <p>Para owners que hacen la <strong>Asesoría 1</strong> de un comercio que compró <strong>AgendaPro Fitness</strong> (pilates, yoga, funcional, box, crossfit, estudios con clases grupales y planes).</p>
     <div class="callout ok">
       <strong>Esto no reemplaza el Blueprint Ruta A.</strong> Misma anatomía: kickoff ~15 min → config → cierre. Cambia el producto, el orden de clics y lo que no se promete. Si el comercio es Solo SaaS clásico (citas 1:1), usa el Blueprint A. Si trajo POS/FE, Track B.
     </div>
 
-    <h2 id="fuentes">Fuentes (corte 7–10 sep 2026)</h2>
+    <h2 id="fuentes">Fuentes (corte 11 sep 2026)</h2>
     <table>
       <tr><th>Qué</th><th>Para qué</th></tr>
       <tr><td><a href="https://carlarevello.github.io/ap-blueprint-onboarding-b2b/">Blueprint Ruta A</a></td><td>Ceremonia de R1: 4 temas, espejo, CM, 2ª</td></tr>
@@ -478,7 +478,7 @@
       <tr><td>POS, boletas, máquina</td><td>Track B. Este playbook no aplica</td></tr>
       <tr><td>Cuenta en app.agendapro.com con “servicio tipo clase”</td><td>Eso es el producto clásico. Fitness se opera en <code>fitness.agendapro.com</code></td></tr>
     </table>
-    <p><strong>Panel:</strong> <code>https://fitness.agendapro.com</code>. Menú: Inicio, Clases, Calendario, Planes, Alumnos, Usuarios, Finanzas, Reportes, Productos, Configuración.</p>
+    <p><strong>Panel:</strong> <code>https://fitness.agendapro.com</code>. Menú: Inicio, Clases, Calendario, Planes, Alumnos, Profesores, Finanzas, Reportes, Productos, Configuración. La misma cuenta puede tener citas clásicas; esta R1 se hace en Fitness, no en <code>app.agendapro.com</code>.</p>
     <p class="say">Qué le dices: <em>“Esto no es la agenda de una cita a la vez. Acá el alumno compra un plan y reserva cupos de clase. Hoy dejamos lo mínimo para que alguien ya pueda inscribirse.”</em></p>
 
     <h2 id="paso-1">Paso 1. Encuadre y 4 temas (~15 min)</h2>
@@ -506,10 +506,10 @@ Señal de uso (48–72 h): vender plan / 1 alumno reserva en app / horarios carg
     <p>Orden de enseñanza (PM Fitness): <strong>local → profesores → clases → planes → vender → reservar</strong>. Si al crear la clase el panel pide sala o categoría, se resuelve ahí.</p>
     <ol>
       <li><strong>Local.</strong> Configuración → Sedes → Agregar sede (nombre y dirección). Logo en Datos de la empresa. Fotos o banner del local, en la sede.</li>
-      <li><strong>Profesor.</strong> Usuarios / Profesores → Agregar. Nombre, apellido, sede. Si va a usar la app de profesor, marca crear cuenta de acceso; si solo lo asignas a clases, déjalo sin login.</li>
+      <li><strong>Profesor.</strong> Profesores → Agregar profesor. Nombre, apellido, sede. Si va a usar la app de profesores, marca “Crear cuenta de acceso para la app”; si solo lo asignas a clases, déjalo sin login.</li>
     </ol>
     <p>Un profesor puede estar en varias sedes. El selector de sede arriba a la derecha filtra todo el panel. Si al agendar aparece dos veces, elige el de la sede correcta.</p>
-    <p class="say">Qué le dices: <em>“Primero el local y quién enseña. Después las clases. No paramos a armar salas.”</em></p>
+    <p class="say">Qué le dices: <em>“Primero el local y quién enseña. Después las clases.”</em></p>
     <div class="callout">En R1 basta <strong>un</strong> local y <strong>un</strong> profesor. El resto de sucursales y el equipo van a la 2ª.</div>
 
     <h2 id="paso-4">Paso 4. Clases: catálogo, recurrencia, instancia</h2>
@@ -521,11 +521,12 @@ Señal de uso (48–72 h): vender plan / 1 alumno reserva en app / horarios carg
       <tr><td><strong>Instancia</strong></td><td>Esa clase de ese día</td><td>Calendario</td></tr>
     </table>
     <p>Asistente de 3 pasos: Información → Horario (recurrente o única) → Políticas y cupos. Al publicar, las sesiones quedan en el Calendario. El sistema arma horarios hacia adelante (en la capacitación: hasta 8 semanas, y cada día suma uno nuevo).</p>
-    <p>Sala y categoría: si el asistente las pide, se eligen o se crean en ese momento. No son un paso previo de configuración.</p>
+    <p>En Políticas y cupos aparece el interruptor de lista de espera. En R1 déjalo apagado: Producto la dejó en evaluación. Detalle en <a href="#paso-9">Paso 9</a>.</p>
+    <p>Sala y categoría: si el asistente las pide, se eligen o se crean en ese momento.</p>
     <h3 id="tres-tipos">Tres tipos</h3>
     <ul>
       <li><strong>Grupal:</strong> varios alumnos, con cupo. Sale del catálogo y se repite.</li>
-      <li><strong>Personalizada:</strong> 1:1, equivalente a un servicio. Se agenda desde el Calendario (horario vacío → Reservar cita) o desde Alumnos. Si el plan cubre esa sesión, se descuenta; si no, cobras ahora o dejas pendiente. El panel avisa si el plan del alumno no cubre ese servicio.</li>
+      <li><strong>Personalizada:</strong> 1:1. Se agenda desde el Calendario (horario vacío → Reservar cita) o desde Alumnos. Asistente de 4 pasos: profesor, servicio, horario y pago. Si el plan cubre esa sesión, se descuenta; si no, cobras ahora o dejas pendiente. El panel avisa si el plan del alumno no cubre ese servicio.</li>
       <li><strong>Extraordinaria:</strong> clase suelta, un día y hora, a partir de una clase ya creada. Si el profesor ya tiene otra a la misma hora, el sistema avisa.</li>
     </ul>
     <p><strong>Cupos:</strong> capacidad máxima en el último paso. Se puede editar después.</p>
@@ -554,15 +555,15 @@ Señal de uso (48–72 h): vender plan / 1 alumno reserva en app / horarios carg
       <tr><td>Plan por disciplina</td><td>Cupos separados (4 yoga + 4 funcional)</td></tr>
       <tr><td>Grupos</td><td>Varias clases comparten el mismo cupo</td></tr>
       <tr><td>Sin tope</td><td>Ilimitadas durante la vigencia (grupales, personalizadas o grupos)</td></tr>
-      <tr><td>Personalizadas en el plan</td><td>Ej. 12 pilates + 1 evaluación nutricional</td></tr>
-      <tr><td>Visible al público</td><td>Sale en la app y en el catálogo / marketplace. Si está apagado, solo se vende en caja o por link</td></tr>
+      <tr><td>Personalizadas en el plan</td><td>Sesiones 1:1 incluidas (el panel las marca como Servicios incluidos)</td></tr>
+      <tr><td>Visible al público</td><td>Sale en la App Mobile AgendaPro y en el minisitio / catálogo público de Fitness. Si está apagado, solo se vende en caja o por link</td></tr>
       <tr><td>Más de una persona</td><td>Plan pareja / familiar</td></tr>
     </table>
     <p>Un alumno puede tener varios planes. Cada uno descuenta del que se usó al reservar.</p>
     <p>Los planes se <strong>editan</strong> (precio, sesiones, disciplinas). No hace falta un plan nuevo por cada promo. Nada se borra: se <strong>desactiva</strong>. Hoy la edición aplica a <strong>suscripciones nuevas</strong>; empujar el cambio a las vigentes es trabajo de Producto, no lo prometas en R1.</p>
     <p><strong>Pago recurrente con tarjeta:</strong> solo Chile. Otros mercados: pago único.</p>
     <div class="callout">No hay tope del tipo “12 clases al mes pero máximo 3 por semana”. Si el alumno quiere quemar el plan en cinco días, el sistema se lo permite. Dilo en R1 para no generar un reclamo después.</div>
-    <p class="say">Qué le dices: <em>“El plan es lo que el alumno compró. La clase es el cupo que gasta. Si el plan no es visible, ustedes lo venden en recepción; si es visible, también lo compra solo desde la app.”</em></p>
+    <p class="say">Qué le dices: <em>“El plan es lo que el alumno compró. La clase es el cupo que gasta. Si el plan no es visible, ustedes lo venden en recepción; si es visible, también lo compra desde la App Mobile o el minisitio de Fitness.”</em></p>
 
     <h2 id="paso-7">Paso 7. Vender, alumno y app</h2>
     <h3 id="vender">Botón Vender (arriba a la derecha)</h3>
@@ -572,17 +573,17 @@ Señal de uso (48–72 h): vender plan / 1 alumno reserva en app / horarios carg
       <li>Revisar.</li>
       <li>Pago: caja, link, pendiente, o pagar después con fecha. El plan queda activo; en ficha aparece “En prueba” si pagará después. Precio tiene que ser mayor a cero: no es un plan gratis.</li>
     </ol>
-    <p>También se vende desde la ficha del alumno (asociar / vender). Se cobra una personalizada o una reserva pendiente con el mismo asistente.</p>
+    <p>También se vende desde la ficha del alumno (Asociar plan / vender). Se cobra una personalizada o una reserva pendiente con el mismo asistente.</p>
     <h3 id="ficha-alumno">Ficha del alumno</h3>
     <ul>
       <li>Planes, asistencia, pagos.</li>
-      <li>Sumar o restar créditos (regalo, ajuste de onboarding).</li>
+      <li>Regalar usos del período en curso (y ajustar créditos si hace falta).</li>
       <li>Pausar / reanudar (rango de fechas). Extender vigencia en pago único.</li>
       <li>Venta a plazo: plan activo hasta la fecha; si no paga, pierde acceso. Se puede cobrar antes desde la ficha.</li>
     </ul>
-    <p>Cancelar una reserva <strong>devuelve el cupo</strong> si está dentro de la política del centro. El alumno cancela o reagenda desde la app AgendaPro. El no-show <strong>sí gasta</strong> la clase.</p>
+    <p>Cancelar una reserva <strong>devuelve el cupo</strong> si está dentro de la política del centro. El alumno cancela o reagenda desde la App Mobile AgendaPro. El no-show <strong>sí gasta</strong> la clase. Sacar a alguien de una clase (Eliminar) libera el cupo; eso no es lo mismo que marcar inasistencia.</p>
     <h3 id="app-alumno">Qué hace el alumno en la app</h3>
-    <p>Mis Reservas → detalle del plan → Ver clases disponibles → elige → Reservar. Ve progreso tipo “5 de 8 este mes” y fecha de renovación.</p>
+    <p>App Mobile AgendaPro: Mis Reservas → detalle del plan → Ver clases disponibles → elige → Reservar. Ve progreso tipo “5 de 8 este mes” y fecha de renovación. También puede comprar un plan visible desde la app o el minisitio / catálogo público de Fitness.</p>
     <p>Si no lo deja reservar, en este orden: plan agotado / pausado / vencido; anticipación; clase llena; sede que el plan no cubre. Se verifica en la ficha.</p>
     <h3 id="app-profesor">App de profesores</h3>
     <p>App distinta a la del alumno (Play Store / App Store). Agenda (7 días atrás a 6 semanas), inscritos, vender plan, buscar alumnos, marcar asistencia (círculo: Pendiente → Presente → Ausente; atajo Todos presentes). Se puede inscribir a alguien que llegó sin reserva. Si no tiene cupo, queda pago pendiente para cobrarlo en el panel. La config profunda sigue en la web. El cobro nativo en la app no está en todos los centros: si no aparece, se cobra en el panel.</p>
@@ -612,7 +613,7 @@ Nos vemos el [día hora] para [lo que priorizaron].</div>
       <tr><td>Bloquear por profesional (vacaciones)</td><td>No hay. Se cancelan instancias</td></tr>
       <tr><td>Editar un plan y que cambie a todos los vigentes</td><td>Hoy solo aplica a altas nuevas</td></tr>
       <tr><td>Pago recurrente con tarjeta</td><td>Solo Chile</td></tr>
-      <tr><td>Minisitio clásico de AgendaPro</td><td>La compra online de planes es app + marketplace / catálogo público de Fitness, no el minisitio de citas de app.agendapro.com</td></tr>
+      <tr><td>Minisitio de citas (app.agendapro.com)</td><td>No es el canal de Fitness. En Fitness el alumno compra en la App Mobile o en el minisitio / catálogo público del centro</td></tr>
       <tr><td>Reporte detallado de productos</td><td>La venta sale en Finanzas; el reporte fino aún no</td></tr>
       <tr><td>Comprobante / voucher por WhatsApp</td><td>Pedido a Producto; no lo prometas</td></tr>
       <tr><td>Kiosko facial / QR</td><td>Existe en producto; no es día 1 de onboarding</td></tr>
@@ -632,24 +633,23 @@ Nos vemos el [día hora] para [lo que priorizaron].</div>
     </table>
 
     <h2 id="anexo-horarios-fijos">Anexo. Horarios fijos (si sale en R1)</h2>
-    <p>El comercio asigna un cupo recurrente a un alumno. Si el plan vence, se pueden dejar días de gracia. Al renovar, el sistema descuenta esas clases del plan nuevo. Si en un tramo no hay plan activo, igual se crean las reservas y el comercio elige: cancelar, cortesía, etc.</p>
+    <p>El comercio asigna un cupo recurrente a un alumno. Si el plan vence, se pueden dejar días de gracia. Al renovar, el sistema descuenta esas clases del plan nuevo. Si en un tramo no hay plan activo, igual se crean las reservas y el comercio elige: cancelar, cortesía, etc. No está en el centro de ayuda público: si el cliente lo pide, confirma que lo ve en su cuenta; no es el núcleo de R1.</p>
 
     <h2 id="anexo-reportes">Anexo. Reportes (no es R1)</h2>
     <ul>
       <li>Inscripciones a clases (quién, clase, origen; incluye horario fijo cuando aplica).</li>
       <li>Suscripciones y renovaciones; en Renovaciones: pocos cupos y planes vencidos sin plan activo.</li>
       <li>Pago a profesores según tarifa vigente en cada fecha (grupales y personalizadas). Las tarifas tienen fecha de inicio: un precio nuevo no corre hacia atrás.</li>
-      <li>Horas de profesor.</li>
     </ul>
     <p>Finanzas: ventas y detalle; exportar a Excel con los filtros aplicados. Permisos: Administrador general, Administrador de sede, Recepcionista, Profesor. Facturación, si está activa, solo la ve el administrador general.</p>
 
     <h2 id="anexo-config">Anexo. Configuración que no es el minuto 1</h2>
     <ul>
-      <li>Clases de prueba: Configuración → Clases de prueba. 1 clase gratis para prospectos desde el marketplace.</li>
+      <li>Clases de prueba: Configuración → Clases de prueba. 1 clase gratis para prospectos desde el minisitio / catálogo público.</li>
       <li>Cancelación y anticipación: reglas del comercio; una clase puede tener anticipación distinta.</li>
       <li>Marketplace y visibilidad: si el centro aparece, si se compran planes en línea, si se ven horarios.</li>
       <li>Campos de alumno. Consentimientos: el comercio arma el texto; el alumno firma. En R1 solo menciónalo si el dolor era “me falta el descargo”.</li>
-      <li>Tarifas de profesor: fijo por clase, por tipo de plan, o por tramo de inscritos.</li>
+      <li>Tarifas de profesor: monto con fecha de inicio (ej. fijo por clase). Un precio nuevo no corre hacia atrás. Tramos de inscritos u otras reglas: no las armes en R1.</li>
     </ul>
 
     <h2 id="faq-alumno">FAQ corto para cuando el alumno escribe</h2>
@@ -667,6 +667,7 @@ Nos vemos el [día hora] para [lo que priorizaron].</div>
       <li>Configurar en app.agendapro.com “como clases del producto clásico”.</li>
       <li>Prometer lista de espera, gift card, tope semanal o Fitness en CO/MX.</li>
       <li>Armar kiosko facial, ficha clínica o reglas de ISAPRE en la primera call.</li>
+      <li>Encender lista de espera en la clase. El interruptor puede verse; en R1 no la actives ni la vendas.</li>
       <li>Parar la R1 a armar todas las salas. Si el panel las pide, se resuelven al crear la clase.</li>
       <li>Cargar todo el catálogo y olvidar espejo, CM y 2ª.</li>
       <li>Dejar la reunión en “cualquier duda me escribes” sin fecha.</li>
@@ -715,7 +716,7 @@ Nos vemos el [día hora] para [lo que priorizaron].</div>
       phase: 'Antes',
       title: 'País, venta y URL',
       anchor: 'paso-0',
-      html: '<ul><li>CL y AR: sigue.</li><li>CO y MX: stop. Fitness no está a la venta.</li><li>POS/FE: Track B, no este manual.</li><li>Entra a <strong>fitness.agendapro.com</strong>, no a app.agendapro.com.</li></ul><div class="stop">Si mezclas el producto clásico de “servicio tipo clase” con Fitness, el cliente configura el mundo equivocado.</div>'
+      html: '<ul><li>CL y AR: sigue.</li><li>CO y MX: stop. Fitness no está a la venta.</li><li>POS/FE: Track B, no este manual.</li><li>Entra a <strong>fitness.agendapro.com</strong>. La misma cuenta puede tener citas clásicas; no configures clases en app.agendapro.com.</li></ul><div class="stop">Si mezclas el producto clásico de “servicio tipo clase” con Fitness, el cliente configura el mundo equivocado.</div>'
     },
     p1: {
       phase: 'Kickoff',
@@ -739,7 +740,7 @@ Nos vemos el [día hora] para [lo que priorizaron].</div>
       phase: 'Config',
       title: 'Clases',
       anchor: 'paso-4',
-      html: '<ul><li>Catálogo + recurrencia + instancia.</li><li>Grupal, personalizada (1:1) y extraordinaria (suelta).</li><li>Cambiar el profesor de un día no rompe la serie. Cancelar un día tampoco.</li></ul><div class="stop">No hay bloqueo por profesional. Vacaciones = cancelar instancias.</div>'
+      html: '<ul><li>Catálogo + recurrencia + instancia.</li><li>Grupal, personalizada (1:1) y extraordinaria (suelta).</li><li>Cambiar el profesor de un día no rompe la serie. Cancelar un día tampoco.</li><li>Lista de espera: el interruptor puede verse; en R1 déjalo apagado.</li></ul><div class="stop">No hay bloqueo por profesional. Vacaciones = cancelar instancias.</div>'
     },
     p5: {
       phase: 'Config',
@@ -757,7 +758,7 @@ Nos vemos el [día hora] para [lo que priorizaron].</div>
       phase: 'Config',
       title: 'Vender y app',
       anchor: 'paso-7',
-      html: '<ul><li>Botón Vender: plan → alumno → pago (caja, link o pagar después).</li><li>El alumno reserva en la app AgendaPro y gasta el cupo.</li><li>No-show gasta. Cancelar a tiempo devuelve.</li></ul><div class="stop">Señal de uso: un plan vendido o un alumno que ya ve la clase. Si no da el tiempo, compromiso con fecha.</div>'
+      html: '<ul><li>Botón Vender: plan → alumno → pago (caja, link o pagar después).</li><li>El alumno reserva en la App Mobile AgendaPro y gasta el cupo.</li><li>No-show gasta. Cancelar a tiempo devuelve.</li></ul><div class="stop">Señal de uso: un plan vendido o un alumno que ya ve la clase. Si no da el tiempo, compromiso con fecha.</div>'
     },
     p8: {
       phase: 'Cierre',
@@ -781,19 +782,19 @@ Nos vemos el [día hora] para [lo que priorizaron].</div>
       phase: 'Caja 2',
       title: 'El profesor',
       anchor: 'paso-3',
-      html: '<p>Quién enseña. Se asigna a las clases.</p><ul><li>Dónde: Usuarios → Agregar.</li><li>Si va a usar la app de profesor, marca crear acceso. Si solo lo anotas en el horario, déjalo sin login.</li><li>Qué le dices: “Si cambia el profesor un lunes, movemos solo ese lunes. No se rompe toda la semana.”</li></ul>'
+      html: '<p>Quién enseña. Se asigna a las clases.</p><ul><li>Dónde: Profesores → Agregar profesor.</li><li>Si va a usar la app de profesores, marca “Crear cuenta de acceso para la app”. Si solo lo anotas en el horario, déjalo sin login.</li><li>Puede estar en varias sedes. El selector de sede arriba a la derecha filtra el panel.</li></ul>'
     },
     c3: {
       phase: 'Caja 3',
       title: 'La clase',
       anchor: 'paso-4',
-      html: '<p>La receta: nombre, cupo, duración y el patrón semanal (lunes 9:00, etc.).</p><ul><li>Dónde: Clases → Nueva clase.</li><li>Tres capas: catálogo (la receta) → recurrencia (cada semana) → instancia (ese día).</li><li>Si el asistente pide categoría o sala, se eligen o se crean ahí. No es un paso aparte.</li></ul><div class="stop">Hay tres tipos: grupal (varios), personalizada (1 a 1) y extraordinaria (suelta, un día).</div>'
+      html: '<p>La receta: nombre, cupo, duración y el patrón semanal (lunes 9:00, etc.).</p><ul><li>Dónde: Clases → Nueva clase.</li><li>Tres capas: catálogo (la receta) → recurrencia (cada semana) → instancia (ese día).</li><li>Si el asistente pide categoría o sala, se eligen o se crean ahí.</li><li>Lista de espera: en R1 deja el interruptor apagado.</li></ul><div class="stop">Hay tres tipos: grupal (varios), personalizada (1 a 1) y extraordinaria (suelta, un día). Si el lunes cambia el profesor, se mueve solo ese lunes.</div>'
     },
     c4: {
       phase: 'Caja 4',
       title: 'El plan',
       anchor: 'paso-6',
-      html: '<p>Lo que el alumno compra. Ej.: 8 clases, 1 mes, un precio.</p><ul><li>Dónde: Planes → Crear plan.</li><li>Libre = las usa en cualquier disciplina. Por disciplina = cupos separados.</li><li>Visible al público = sale en la app. Si no, solo se vende en recepción.</li></ul><div class="stop">No hay “máximo 3 por semana”. El alumno puede gastar el plan de una vez. Dilo en la R1.</div>'
+      html: '<p>Lo que el alumno compra. Ej.: 8 clases, 1 mes, un precio.</p><ul><li>Dónde: Planes → Crear plan.</li><li>Libre = las usa en cualquier disciplina. Por disciplina = cupos separados.</li><li>Visible al público = App Mobile y minisitio / catálogo de Fitness. Si no, solo caja o link.</li></ul><div class="stop">No hay “máximo 3 por semana”. El alumno puede gastar el plan de una vez. Dilo en la R1.</div>'
     },
     c5: {
       phase: 'Caja 5',
@@ -805,7 +806,7 @@ Nos vemos el [día hora] para [lo que priorizaron].</div>
       phase: 'Caja 6',
       title: 'El alumno reserva',
       anchor: 'paso-7',
-      html: '<p>Entra a la app AgendaPro, ve su plan (5 de 8) y toma una clase. Gasta un cupo.</p><ul><li>Si falta: el plan está agotado, pausado o vencido; la clase llena; o reservó con demasiada anticipación.</li><li>Si no va: el cupo se gasta igual. Si cancela a tiempo, el cupo vuelve.</li><li>Señal de uso de R1: un plan vendido o un alumno que ya ve la clase.</li></ul>'
+      html: '<p>Entra a la App Mobile AgendaPro, ve su plan (5 de 8) y toma una clase. Gasta un cupo.</p><ul><li>Si falta: el plan está agotado, pausado o vencido; la clase llena; o reservó con demasiada anticipación.</li><li>Si no va: el cupo se gasta igual. Si cancela a tiempo, el cupo vuelve.</li><li>Señal de uso de R1: un plan vendido o un alumno que ya ve la clase.</li></ul>'
     }
   };
 
